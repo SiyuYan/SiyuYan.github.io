@@ -1,16 +1,14 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>点击挟持 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">点击挟持</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>January 20, 2016</li></ul></div></div><div class="article-content"><p>#点击挟持ClickJacking<br>攻击者使用一个透明的不可见的iframe覆盖在一个网页上，诱使用户在该网页上进行操作，在用户不知情情况下诱使用户完成一些动作，利用与用户交互页面，调整iframe页面的位置，恰巧点在功能性按钮上。</p>
-<p>##Flash点击挟持</p>
-<p>##图片覆盖攻击Cross Site Image Overlaying –XSIO<br>通过调整图片的位置使得覆盖在所指定任意位置。</p>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>点击挟持 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">点击挟持</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>January 20, 2016</li></ul></div></div><div class="article-content"><h1 id="点击挟持ClickJacking"><a href="#点击挟持ClickJacking" class="headerlink" title="点击挟持ClickJacking"></a>点击挟持ClickJacking</h1><p>攻击者使用一个透明的不可见的iframe覆盖在一个网页上，诱使用户在该网页上进行操作，在用户不知情情况下诱使用户完成一些动作，利用与用户交互页面，调整iframe页面的位置，恰巧点在功能性按钮上。</p>
+<h2 id="Flash点击挟持"><a href="#Flash点击挟持" class="headerlink" title="Flash点击挟持"></a>Flash点击挟持</h2><h2 id="图片覆盖攻击Cross-Site-Image-Overlaying-–XSIO"><a href="#图片覆盖攻击Cross-Site-Image-Overlaying-–XSIO" class="headerlink" title="图片覆盖攻击Cross Site Image Overlaying –XSIO"></a>图片覆盖攻击Cross Site Image Overlaying –XSIO</h2><p>通过调整图片的位置使得覆盖在所指定任意位置。</p>
 <ul>
 <li>防御：需要检查用户提交的HTML代码中 &lt; img&gt;标签的style属性是否可能导致浮出。</li>
 </ul>
-<p>##拖拽挟持与数据窃取<br>Drag &amp; Drop<br>诱使用户从隐藏不可见的iframe中拖拽出攻击者希望得到的数据，然后放到攻击者能控制的另外一个页面中，从而窃取数据。拖拽不收同源策略的限制</p>
-<p>##触屏挟持</p>
-<ul>
+<h2 id="拖拽挟持与数据窃取"><a href="#拖拽挟持与数据窃取" class="headerlink" title="拖拽挟持与数据窃取"></a>拖拽挟持与数据窃取</h2><p>Drag &amp; Drop<br>诱使用户从隐藏不可见的iframe中拖拽出攻击者希望得到的数据，然后放到攻击者能控制的另外一个页面中，从而窃取数据。拖拽不收同源策略的限制</p>
+<h2 id="触屏挟持"><a href="#触屏挟持" class="headerlink" title="触屏挟持"></a>触屏挟持</h2><ul>
 <li>touchstart</li>
 <li>touchend</li>
 <li>touchmove</li>
-<li>touchcancel系统可取消touch事件<br>##防御ClickJacking</li>
+<li>touchcancel系统可取消touch事件<h2 id="防御ClickJacking"><a href="#防御ClickJacking" class="headerlink" title="防御ClickJacking"></a>防御ClickJacking</h2></li>
 <li>禁止跨域的iframe来防范</li>
 <li>frame busting ：使用javascript禁止iframe嵌套<ul>
 <li>if（top.location !=location） {top.location=self.location}</li>
@@ -23,7 +21,7 @@
 <li>Content Security Policy(firefox)</li>
 <li>NoScript(firefox)</li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4t0007bdnblyads7jx" data-title="点击挟持" data-url="http://siyuyan.github.io/2016/01/20/点击挟持/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixnceomy0007synb0xmd8e0b" data-title="点击挟持" data-url="http://siyuyan.github.io/2016/01/20/点击挟持/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');

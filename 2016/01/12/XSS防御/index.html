@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>XSS - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">XSS</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>5 Minutes</li><li><i class="icon icon-calendar"></i>January 12, 2016</li></ul></div></div><div class="article-content"><p>#XSS        </p>
-<ul>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>XSS - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">XSS</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>5 Minutes</li><li><i class="icon icon-calendar"></i>January 12, 2016</li></ul></div></div><div class="article-content"><h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><ul>
 <li><p>XSS(Cross Site Script)黑客通过HTML注入篡改了网页，插入了恶意的脚本，从而在用户浏览网页时，控制用户浏览器的一种攻击。</p>
 <ul>
 <li>反射型：非持久性型，点击后攻击成功，<strong>一般会修改正常URL，一般要求攻击者将XSS URL发送给用户点击</strong><br>因为这种攻击方式的注入代码是从目标服务器通过错误信息、搜索结果等等方式“反射”回来的。而称为非持久型XSS，则是因为这种攻击方式具有一次性。攻击者通过电子邮件等方式将包含注入脚本的恶意链接发送给受害者，当受害者点击该链接时，注入脚本被传输到目标服务器上，然后服务器将注入脚本“反射”到受害者的浏览器上，从而在该浏览器上执行了这段脚本。</li>
@@ -33,8 +32,7 @@
 <li>XSS Worm ：<strong>扩大传播</strong>。用户之间发生交互行为的页面，如果存在存储型XSS，容易发生攻击（因为需要传播）</li>
 </ol>
 <p>不干扰用户使用，窃取用户数据最可怕。</p>
-<p>##XSS构造技巧</p>
-<ul>
+<h2 id="XSS构造技巧"><a href="#XSS构造技巧" class="headerlink" title="XSS构造技巧"></a>XSS构造技巧</h2><ul>
 <li>利用字符编码 \</li>
 <li>绕过长度限制：<ul>
 <li>利用事件 “onclick=alert(1)</li>
@@ -47,8 +45,7 @@
 <pre><code>#随着技术发展，难以利用的漏洞也许以后不再是难题
 </code></pre></li>
 </ul>
-<p>##Flash XSS </p>
-<ul>
+<h2 id="Flash-XSS"><a href="#Flash-XSS" class="headerlink" title="Flash XSS"></a>Flash XSS</h2><ul>
 <li><p>嵌入ActionScript脚本，实施脚本攻击</p>
 <ul>
 <li>\<embed> </li>
@@ -68,8 +65,7 @@
 </ul>
 </li>
 </ul>
-<p>##使用框架的安全性漏洞</p>
-<h2 id="XSS防御"><a href="#XSS防御" class="headerlink" title="XSS防御"></a>XSS防御</h2><h3 id="HTTPOnly"><a href="#HTTPOnly" class="headerlink" title="HTTPOnly"></a>HTTPOnly</h3><ul>
+<h2 id="使用框架的安全性漏洞"><a href="#使用框架的安全性漏洞" class="headerlink" title="使用框架的安全性漏洞"></a>使用框架的安全性漏洞</h2><h2 id="XSS防御"><a href="#XSS防御" class="headerlink" title="XSS防御"></a>XSS防御</h2><h3 id="HTTPOnly"><a href="#HTTPOnly" class="headerlink" title="HTTPOnly"></a>HTTPOnly</h3><ul>
 <li>XSS带来cookie劫持，窃取用户信息，模拟用户身份执行操作等。</li>
 <li><p>HTTPOnly解决XSS后的cookie劫持。 </p>
 <p> cookie使用过程：</p>
@@ -89,8 +85,7 @@
 <li><strong>在正确的地方选择用这个正确的编码方式</strong> </li>
 <li>XSS本质是HTML注入，用户的数据被当做HTML代码一部分来执行，混淆了原本的语义，产生了新的语义，View层在应用拼接变量到HTML页面时产生。</li>
 </ul>
-<p>###防御措施</p>
-<ul>
+<h3 id="防御措施"><a href="#防御措施" class="headerlink" title="防御措施"></a>防御措施</h3><ul>
 <li>HTML标签中输出变量 eg:构造一个\<script>、\<img src='' onerror=''> –&gt;使用HtmlEncode</li>
 <li>HTML属性中输出变量 eg:\<div name=“**">\<script>"alert''\</script>**&lt;””&gt;\ –&gt;使用HtmlEncode</li>
 <li>在script标签中输出  –&gt;使用javascriptEncode</li>
@@ -111,9 +106,8 @@
 <li>HTTPOnly（是Cookie扩展功能，使JS无法获得Cookie）</li>
 <li>X-Frame-Options属于HTTP响应首部，用于控制网站内容器在其他web网站内的Frame标签内的显示问题。为了防止点击挟持。X-Frame-Options：DENY</li>
 <li>X-XSS-Protection:1属于HTTP响应首部，用于控制浏览器XSS防护机制的开关。</li>
-<li></li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4s0006bdnb67oaiukn" data-title="XSS" data-url="http://siyuyan.github.io/2016/01/12/XSS防御/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixnceomc0004synbpzn74mgj" data-title="XSS" data-url="http://siyuyan.github.io/2016/01/12/XSS防御/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');

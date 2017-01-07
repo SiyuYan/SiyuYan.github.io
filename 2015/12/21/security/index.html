@@ -1,7 +1,4 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>安全 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">安全</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>December 21, 2015</li></ul></div></div><div class="article-content"><p>#客户端安全</p>
-<p>##浏览器安全</p>
-<p>###基础概念</p>
-<ul>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>安全 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">安全</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>December 21, 2015</li></ul></div></div><div class="article-content"><h1 id="客户端安全"><a href="#客户端安全" class="headerlink" title="客户端安全"></a>客户端安全</h1><h2 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h2><h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><ul>
 <li><strong>同源策略</strong>(Same Origin Policy)–&gt;浏览器最基本的安全功能。<ul>
 <li>限制来自不同源的document和脚本，host(Domains/IP), protocols and ports</li>
 </ul>
@@ -18,8 +15,7 @@
 <pre><code>#Summary: 同源策略，恶意网址检测，插件安全
 </code></pre></li>
 </ul>
-<p>###注入</p>
-<p><strong>注入漏洞</strong>：应⽤程序忽略了对输⼊数据的检查，这些夹杂了恶意代码的数据被应⽤程序误认为是正常的指令⽽运⾏，从⽽使系统受到攻击。</p>
+<h3 id="注入"><a href="#注入" class="headerlink" title="注入"></a>注入</h3><p><strong>注入漏洞</strong>：应⽤程序忽略了对输⼊数据的检查，这些夹杂了恶意代码的数据被应⽤程序误认为是正常的指令⽽运⾏，从⽽使系统受到攻击。</p>
 <p>恶意输⼊数据被当做代码执⾏。</p>
 <p>测试SQL注⼊漏洞的技巧：</p>
 <ul>
@@ -27,7 +23,7 @@
 <li>基于“真/假”的测试</li>
 <li>延迟测试<br>SQLMAP<br>OWASP ZAP<br>BURTP</li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4h0003bdnba7psoenj" data-title="安全" data-url="http://siyuyan.github.io/2015/12/21/security/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixnceomh0005synb27xjrgv7" data-title="安全" data-url="http://siyuyan.github.io/2015/12/21/security/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');

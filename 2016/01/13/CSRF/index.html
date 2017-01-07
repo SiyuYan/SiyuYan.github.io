@@ -1,19 +1,11 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>CSRF - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">CSRF</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>January 13, 2016</li></ul></div></div><div class="article-content"><p>#Cross Site Request Forgery–跨站点请求伪造CSRF</p>
-<p>##基础知识</p>
-<p>###浏览器cookie</p>
-<ul>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>CSRF - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">CSRF</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>2 Minutes</li><li><i class="icon icon-calendar"></i>January 13, 2016</li></ul></div></div><div class="article-content"><h1 id="Cross-Site-Request-Forgery–跨站点请求伪造CSRF"><a href="#Cross-Site-Request-Forgery–跨站点请求伪造CSRF" class="headerlink" title="Cross Site Request Forgery–跨站点请求伪造CSRF"></a>Cross Site Request Forgery–跨站点请求伪造CSRF</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="浏览器cookie"><a href="#浏览器cookie" class="headerlink" title="浏览器cookie"></a>浏览器cookie</h3><ul>
 <li>session cookie：临时cookie   浏览器关闭后失效</li>
 <li>Third-party cookie：本地cookie   服务器在set-cookie指定Expire时间，过时失效。若是跨域可能会禁止</li>
 </ul>
-<p>###P3P Header的副作用–The Platform for Privacy Preferences在线隐私偏好平台</p>
-<ul>
+<h3 id="P3P-Header的副作用–The-Platform-for-Privacy-Preferences在线隐私偏好平台"><a href="#P3P-Header的副作用–The-Platform-for-Privacy-Preferences在线隐私偏好平台" class="headerlink" title="P3P Header的副作用–The Platform for Privacy Preferences在线隐私偏好平台"></a>P3P Header的副作用–The Platform for Privacy Preferences在线隐私偏好平台</h3><ul>
 <li>P3P头，某种程度上允许浏览器发送第三方cookie:用于类似广告等需要跨域访问的页面</li>
 </ul>
-<p>###POST:CSRF不仅仅只能用GET请求发起。</p>
-<p>###Flash CSRF</p>
-<p>###CSRF Worm</p>
-<p>##防御</p>
-<ul>
+<h3 id="POST-CSRF不仅仅只能用GET请求发起。"><a href="#POST-CSRF不仅仅只能用GET请求发起。" class="headerlink" title="POST:CSRF不仅仅只能用GET请求发起。"></a>POST:CSRF不仅仅只能用GET请求发起。</h3><h3 id="Flash-CSRF"><a href="#Flash-CSRF" class="headerlink" title="Flash CSRF"></a>Flash CSRF</h3><h3 id="CSRF-Worm"><a href="#CSRF-Worm" class="headerlink" title="CSRF Worm"></a>CSRF Worm</h3><h2 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h2><ul>
 <li>验证码</li>
 <li>Referer Check防止图片盗链；检查请求是否来自合法的“源”。Referer不好获得，可以用来监控CSTF攻击的发生。</li>
 <li>Anti CSRF Token：注意Token的保密性和随机性</li>
@@ -27,7 +19,7 @@
 </code></pre><ul>
 <li>渗透测试作为一个网络安全通用的测试技术已经多年。它也通常被称为黑盒测试或道德入侵 (Ethical Hacking)。渗透 测试在本质上是“艺术”,在不知道内部运作的应用程序本身的情况下,对正在运行的应用进行远程检测,发现安 全漏洞。通常,渗透测试团队会假装成合法用户使用应用程序进行。测试者通过模拟攻击者的攻击手法,试图发现 并利用安全漏洞。</li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4c0001bdnb9oajvk1g" data-title="CSRF" data-url="http://siyuyan.github.io/2016/01/13/CSRF/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixnceom00000synb0gzup8bo" data-title="CSRF" data-url="http://siyuyan.github.io/2016/01/13/CSRF/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');
