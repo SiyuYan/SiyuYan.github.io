@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>安全 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">安全</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>December 21, 2015</li></ul></div></div><div class="article-content"><p>#客户端安全</p>
+<p>##浏览器安全</p>
+<p>###基础概念</p>
+<ul>
+<li><strong>同源策略</strong>(Same Origin Policy)–&gt;浏览器最基本的安全功能。<ul>
+<li>限制来自不同源的document和脚本，host(Domains/IP), protocols and ports</li>
+</ul>
+</li>
+<li>sandbox  –资源隔离类模块<ul>
+<li>‘挂马’：<strong>利用浏览器漏洞执行任意代码的攻击方式-</strong>-&gt;多进程架构<br>chrome（浏览器进程、渲染进程、插件进程、扩展进程）  sandbox隔离，网页代码通过IPC channel和浏览器内核通信，和OS通信。每个Tab是一个进程</li>
+</ul>
+</li>
+<li>恶意网址拦截，恶意网址黑名单：挂马网站（恶意脚本，运行后植入木马），钓鱼网站（模仿知名网站相似页面欺骗用户）<ul>
+<li>EV SSL证书（Extended Validation SSL Certificate）</li>
+</ul>
+</li>
+<li><p>XSS –&gt;XSS Filter(微软 IE)<br>–&gt;CSP(Content Security Policy –&gt;Firefox):服务器端返回一个http头，在其中描述页面应该遵守的安全策略，xss在没有第三方插件帮助下无法控制HTTP头。  </p>
+<pre><code>#Summary: 同源策略，恶意网址检测，插件安全
+</code></pre></li>
+</ul>
+<p>###注入</p>
+<p><strong>注入漏洞</strong>：应⽤程序忽略了对输⼊数据的检查，这些夹杂了恶意代码的数据被应⽤程序误认为是正常的指令⽽运⾏，从⽽使系统受到攻击。</p>
+<p>恶意输⼊数据被当做代码执⾏。</p>
+<p>测试SQL注⼊漏洞的技巧：</p>
+<ul>
+<li>基于报错的测试</li>
+<li>基于“真/假”的测试</li>
+<li>延迟测试<br>SQLMAP<br>OWASP ZAP<br>BURTP</li>
+</ul>
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4h0003bdnba7psoenj" data-title="安全" data-url="http://siyuyan.github.io/2015/12/21/security/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+var duoshuoQuery = {short_name: siteName};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] 
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2016/01/12/XSS防御/"><i class="icon icon-arror-left"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="http://github.com/BoizZ" title="GitHub" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="http://weibo.com/heqibang" title="Weibo" target="_blank"><i class="icon icon-weibo"></i></a></li><li><a href="http://www.segmentfault.com/u/bon" title="SegmentFault" target="_blank"><i class="icon icon-segmentfault"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2017 Siyu<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></body></html>

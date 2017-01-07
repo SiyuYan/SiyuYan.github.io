@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>CSRF - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">CSRF</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>1 Minutes</li><li><i class="icon icon-calendar"></i>January 13, 2016</li></ul></div></div><div class="article-content"><p>#Cross Site Request Forgery–跨站点请求伪造CSRF</p>
+<p>##基础知识</p>
+<p>###浏览器cookie</p>
+<ul>
+<li>session cookie：临时cookie   浏览器关闭后失效</li>
+<li>Third-party cookie：本地cookie   服务器在set-cookie指定Expire时间，过时失效。若是跨域可能会禁止</li>
+</ul>
+<p>###P3P Header的副作用–The Platform for Privacy Preferences在线隐私偏好平台</p>
+<ul>
+<li>P3P头，某种程度上允许浏览器发送第三方cookie:用于类似广告等需要跨域访问的页面</li>
+</ul>
+<p>###POST:CSRF不仅仅只能用GET请求发起。</p>
+<p>###Flash CSRF</p>
+<p>###CSRF Worm</p>
+<p>##防御</p>
+<ul>
+<li>验证码</li>
+<li>Referer Check防止图片盗链；检查请求是否来自合法的“源”。Referer不好获得，可以用来监控CSTF攻击的发生。</li>
+<li>Anti CSRF Token：注意Token的保密性和随机性</li>
+</ul>
+<h3 id="本质！！"><a href="#本质！！" class="headerlink" title="本质！！"></a>本质！！</h3><ul>
+<li>重要操作的所有参数是可以被攻击者猜测到的</li>
+<li>攻击者利用用户神风操作用户账户的一种攻击方式</li>
+</ul>
+<p>CSRF（Cross-site request forgery跨站请求伪造，也被称为“One Click Attack”或者Session Riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。尽管听起来像跨站脚本（XSS），但它与XSS非常不同，并且攻击方式几乎相左。XSS利用站点内的信任用户，而CSRF则通过伪装来自受信任用户的请求来利用受信任的网站。与XSS攻击相比，CSRF攻击往往不大流行（因此对其进行防范的资源也相当稀少）和难以防范，所以被认为比XSS更具危险性。</p>
+<pre><code>#安全是一个过程,不是某个产品。
+</code></pre><ul>
+<li>渗透测试作为一个网络安全通用的测试技术已经多年。它也通常被称为黑盒测试或道德入侵 (Ethical Hacking)。渗透 测试在本质上是“艺术”,在不知道内部运作的应用程序本身的情况下,对正在运行的应用进行远程检测,发现安 全漏洞。通常,渗透测试团队会假装成合法用户使用应用程序进行。测试者通过模拟攻击者的攻击手法,试图发现 并利用安全漏洞。</li>
+</ul>
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixna8x4c0001bdnb9oajvk1g" data-title="CSRF" data-url="http://siyuyan.github.io/2016/01/13/CSRF/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+var duoshuoQuery = {short_name: siteName};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] 
+  || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2016/01/20/点击挟持/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2016/01/12/XSS防御/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="http://github.com/BoizZ" title="GitHub" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="http://weibo.com/heqibang" title="Weibo" target="_blank"><i class="icon icon-weibo"></i></a></li><li><a href="http://www.segmentfault.com/u/bon" title="SegmentFault" target="_blank"><i class="icon icon-segmentfault"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2017 Siyu<br><small>POWER BY <a href="https://hexo.io" target="_blank">HEXO</a></small><small>, THEME BY <a href="https://github.com/BoizZ/hexo-theme-laughing" target="_blank">LAUGHING</a></small></p></div></div></body></html>
