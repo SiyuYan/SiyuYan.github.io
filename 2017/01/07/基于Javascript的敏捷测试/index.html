@@ -1,6 +1,5 @@
 <!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>基于Javascript的敏捷测试 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">基于Javascript的敏捷测试</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>12 Minutes</li><li><i class="icon icon-calendar"></i>January 7, 2017</li></ul></div></div><div class="article-content"><p>随着基于JavaScript的客户端Web Application越来越多，开发人员对Nodejs的应用也在不断增加，团队中已经可以使用JavaScript完成对于一个Web Application的前后端全栈开发。与此同时也可以考虑使用JavaScript完成绝大部分的自动化测试，从而可以统一开发团队的技术栈，复用团队的开发人员来开发和维护自动化测试，降低自动化测试的开发和维护成本，并实现JavaScript的敏捷自动化测试。</p>
-<p>为了适应这样的测试开发环境，基于JavaScript的测试框架和工具也随之高速发展，比如出现了Jasmine，Protractor，Mocha，Selenium，FrisbyJs，Supertest等一批优秀和高效的测试框架和工具，这些工具能够帮团队完成金字塔各层不同类型要求的自动化测试。那么接下来将借助Javascript这样一门热门、简单轻量级的动态语言，从测试金字塔的各个层面分层介绍敏捷团队在项目交付中如何选择适合的测试框架从而实现快速、低成本搭建自动化测试框架的目的。</p>
-<h2 id="测试金字塔"><a href="#测试金字塔" class="headerlink" title="测试金字塔"></a>测试金字塔</h2><p>在实际的项目交付开发中，开发和测试人员多多少少会遇到一些痛点想要解决，比如：</p>
+<p>为了适应这样的开发环境，基于JavaScript的测试框架和工具也随之高速发展，出现了Jasmine，Protractor，Mocha，Selenium，FrisbyJs，Supertest等一批优秀和高效的测试框架和工具，这些工具能够帮团队完成金字塔各层不同类型要求的自动化测试。然而在实际的项目交付开发中，开发和测试人员多多少少会遇到一些痛点想要解决，比如：</p>
 <ul>
 <li>客户希望看直观的测试报告，了解测试情况</li>
 <li>交付的系统功能不符合客户的需求？</li>
@@ -13,12 +12,12 @@
 <li>无法理解他人或者自己以前的实现代码</li>
 <li>实现过程中，发现业务并不是自己所预想的那样</li>
 </ul>
-<p>那么如何在自动化测试中低成本的解决这些问题呢？是否有哪些好的框架和工具可以选择？接下来就从测试金字塔分层由下至上来介绍。</p>
+<p>那么如何在自动化测试中低成本的解决这些问题呢？我们该如何搭建项目完整的测试架构，提交产品交付质量。接下来将借助Javascript这样一门热门、简单轻量级的动态语言，从测试金字塔的各个层面分层介绍敏捷团队在项目交付中如何选择适合的测试框架从而实现快速、低成本搭建自动化测试框架的目的。</p>
 <p><img src="/images/基于Javascript的敏捷测试/测试金字塔.png" alt="测试金字塔"></p>
 <h2 id="Javascript单元测试-与-TDD"><a href="#Javascript单元测试-与-TDD" class="headerlink" title="Javascript单元测试 与 TDD"></a>Javascript单元测试 与 TDD</h2><h3 id="TDD的概念和流程"><a href="#TDD的概念和流程" class="headerlink" title="TDD的概念和流程"></a>TDD的概念和流程</h3><p>TDD：测试驱动开发(Test Driven Development)</p>
-<p>对TDD有所了解的人都知道，其实TDD无非是测试优于开发代码先行的思路。但此时我们更强调的是在使用TDD的思想来帮助我们开发的时候<strong>重构</strong>的思想，也就是TDD = TFD（Test First Development） + Refactoring</p>
-<p><img src="/images/基于Javascript的敏捷测试/TDD.png" alt="TDD"></p>
-<p>整个使用TDD开发的流程（对应上图）概括起来是：</p>
+<p>TDD是敏捷开发中的一项核心实践和技术，也是一种设计方法论，在开发功能代码之前，先编写单元测试用例代码，测试代码确定需要编写什么产品代码，整个过程通过测试来推动整个开发的进行，但测试驱动开发并不只是单纯的测试工作，而是把需求分析，设计，质量控制量化的过程，帮助开发在开发前将整个业务过程思考清晰，也能让开发代码可测试性提高。</p>
+<p>其中更重要的是在使用TDD的思想开发的时候<strong>重构</strong>方式，也就是TDD = TFD（Test First Development） + Refactoring</p>
+<p>整个使用TDD开发的流程（对应下图）概括起来是：</p>
 <ul>
 <li>加入一个新的测试</li>
 <li>运行下新加的测试，看到它失败</li>
@@ -26,10 +25,13 @@
 <li>运行所有的测试（test case），然后看到所有测试都通过</li>
 <li>移掉重复的代码，对代码进行重构 </li>
 </ul>
+<p><img src="/images/基于Javascript的敏捷测试/TDD.png" alt="TDD"></p>
 <h3 id="单元测试的实践方式与优势"><a href="#单元测试的实践方式与优势" class="headerlink" title="单元测试的实践方式与优势"></a>单元测试的实践方式与优势</h3><p>当然，整个过程不会那么顺利，尤其是在一些业务场景复杂的时候，很难保证划分的单元（Unit）足够小。很多团队实践起TDD对整体的开发效率、开发质量并没有显著提高，这时就需要借鉴一些最佳实践来帮助团队更好地完成TDD，提高开发效率。比如以下几点：</p>
 <ul>
 <li>编写测试代码时，只考虑测试，不考虑具体内部实现</li>
 <li>选取测试数据尽量模拟现实，越靠近现实越好</li>
+<li>独立测试，不同代码的测试应该相互独立</li>
+<li>先写断言：编写测试代码时，应该首先编写判断代码功能的断言语句，然后编写必要的辅助语句。</li>
 <li>充分考虑测试的边界条件</li>
 <li>对复杂、核心代码重点测试</li>
 <li>利用AOP(beforeEach、afterEach)，减少测试代码数量，避免无用功能</li>
@@ -40,11 +42,36 @@
 <li>写测试的过程中更加理解业务逻辑</li>
 <li>小步迭代，集中注意解决一个问题，逐个击破</li>
 <li>测试用于验证代码修改，保证没有影响原有的功能</li>
-<li>更有信心的在不断的Refactor中提升代码的质量</li>
+<li>代码质量高，促成良性循环，更有信心的在不断的Refactor中提升代码的质量</li>
 </ul>
 <h3 id="单元测试框架"><a href="#单元测试框架" class="headerlink" title="单元测试框架"></a>单元测试框架</h3><p>介绍了很多理论，那么接下来介绍一些互联网上开源、简单上手的单元测试框架：</p>
-<p><img src="/images/基于Javascript的敏捷测试/单元测试框架.png" alt="单元测试框架"></p>
-<p>以上几种框架 <a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a> <a href="https://jasmine.github.io/" target="_blank" rel="external">Jasmine</a> <a href="http://mochajs.org/" target="_blank" rel="external">Mocha</a> 各有优缺点，在实际项目对框架选择时可以结合项目实际情况和人员技术栈来进行选择。对于Javascript测试可以参考如下代码结构，此结构在不同语言和框架使用时差别不大，在此不再赘述。</p>
+<p><a href="http://qunitjs.com/" target="_blank" rel="external">Qunit</a> </p>
+<ul>
+<li>基于Jquery的测试框架</li>
+<li>出来的时间比较久，有很多第三方支持</li>
+<li>完整的测试功能</li>
+<li>异步测试困难</li>
+<li>不需要依赖其它任何软件包或框架</li>
+<li>方便跟jQuery等其它框架集成</li>
+</ul>
+<p><a href="https://jasmine.github.io/" target="_blank" rel="external">Jasmine</a> </p>
+<ul>
+<li>易于安装，可以使用Jasmine-Node, 也可以使用Grunt 和Jasmine联合使用</li>
+<li>异步测试有些复杂</li>
+<li>兼容性强</li>
+<li>支持Jenkins等CI服务器</li>
+<li>支持Unit Testing. API Testing. E2E Testing</li>
+</ul>
+<p><a href="http://mochajs.org/" target="_blank" rel="external">Mocha</a> </p>
+<ul>
+<li>需要引用Chai，Sinon</li>
+<li>测试代码清晰，异步测试方便</li>
+<li>支持Jenkins等CI服务器</li>
+<li>高扩展性</li>
+<li>支持简单异步，包括 promises</li>
+<li>支持Unit Testing. API Testing. E2E Testing</li>
+</ul>
+<p>以上几种框架各有优缺点，在实际项目对框架选择时可以结合项目实际情况和人员技术栈来进行选择。对于Javascript测试可以参考如下代码结构，此结构在不同语言和框架使用时差别不大，在此不再赘述。</p>
 <p><img src="/images/基于Javascript的敏捷测试/单元测试代码结构.png" alt="单元测试代码结构"></p>
 <h2 id="Javascript-API测试"><a href="#Javascript-API测试" class="headerlink" title="Javascript API测试"></a>Javascript API测试</h2><h3 id="API测试类型和特点"><a href="#API测试类型和特点" class="headerlink" title="API测试类型和特点"></a>API测试类型和特点</h3><p>单元测试侧重于函数的内部逻辑实现，而API测试侧重于暴露出来的功能是否能够很好的满足使用者的需要。从API提供方类型区分，包括Public API提供或者第三方提供API服务的情况，和同一项目的项目代码前后端分离，后端暴露接口，前端消费后端提供的数据，它们之间通过REST接口通信的情况。不管是哪种，保证提供的API提供的服务是可用的都是必不可少需要测试的内容。</p>
 <p><img src="/images/基于Javascript的敏捷测试/API测试.png" alt="API测试"></p>
@@ -141,8 +168,8 @@
 <p>对图片进行对比可以有很多方式，也有一些比较成熟的工具，如Viff，但这里介绍一个非常轻量级图像对比工具 – Blink-diff，可以用npm一键安装，该工具对比效果如下（图片元素不同处已用蓝色标记）：</p>
 <p><img src="/images/基于Javascript的敏捷测试/Diff.png" alt="Diff"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文基于Javascript这门热门且轻量级的语言作为辅助，介绍了团队在整个敏捷测试流程中如何快速在单元、集成、端到端方面从不同角度搭建起完整的自动化测试框架。相关具体实践已经有完整的Demo在如下Repo中。</p>
-<p>Repo: git@github.com:XiaoMingXing/agileTour.git</p>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixq93ss00006rmfy2jm2s0yx" data-title="基于Javascript的敏捷测试" data-url="http://siyuyan.github.io/2017/01/07/基于Javascript的敏捷测试/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+<p>Repo: git@github.com:SiyuYan/agileTour.git</p>
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixrdkcke0007dznbk98jufuh" data-title="基于Javascript的敏捷测试" data-url="http://siyuyan.github.io/2017/01/07/基于Javascript的敏捷测试/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');
