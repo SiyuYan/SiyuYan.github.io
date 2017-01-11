@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>基于Javascript的敏捷测试 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">基于Javascript的敏捷测试</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>13 Minutes</li><li><i class="icon icon-calendar"></i>January 7, 2017</li></ul></div></div><div class="article-content"><p>随着JavaScript的客户端应用越来越多，开发人员对Nodejs的使用也在不断增加，团队中已经可以使用JavaScript完成对于一个Web Application的前后端全栈开发。与此同时也可以考虑使用JavaScript完成绝大部分的自动化测试，从而可以统一开发团队的技术栈，复用团队的开发人员来开发和维护自动化测试，降低自动化测试的开发和维护成本，并实现JavaScript的敏捷自动化测试。</p>
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>基于JavaScript的敏捷测试 - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">基于JavaScript的敏捷测试</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>13 Minutes</li><li><i class="icon icon-calendar"></i>January 7, 2017</li></ul></div></div><div class="article-content"><p>随着JavaScript的客户端应用越来越多，开发人员对Nodejs的使用也在不断增加，团队中已经可以使用JavaScript完成对于一个Web Application的前后端全栈开发。与此同时也可以考虑使用JavaScript完成绝大部分的自动化测试，从而可以统一开发团队的技术栈，复用团队的开发人员来开发和维护自动化测试，降低自动化测试的开发和维护成本，并实现JavaScript的敏捷自动化测试。</p>
 <p>为了适应这样的开发环境，基于JavaScript的测试框架和工具也随之高速发展，出现了Jasmine，Protractor，Mocha，Selenium，FrisbyJs，Supertest等一批优秀和高效的测试框架和工具，这些工具能够帮团队完成金字塔各层不同类型要求的自动化测试。然而在实际的项目交付开发中，开发和测试人员多多少少会遇到一些痛点想要解决，比如：</p>
 <ul>
 <li>客户希望看直观的测试报告，了解测试情况</li>
@@ -12,9 +12,10 @@
 <li>无法理解他人或者自己以前的实现代码</li>
 <li>实现过程中，发现业务并不是自己所预想的那样</li>
 </ul>
-<p>为了解决以上问题，本文将介绍如何搭建项目完整的测试架构，提交产品交付质量。借助Javascript从测试金字塔的各个层面介绍敏捷团队在项目交付中如何选择适合的测试框架从而实现快速、低成本搭建自动化测试框架的目的。</p>
-<p><img src="/images/基于Javascript的敏捷测试/测试金字塔.png" alt="测试金字塔"></p>
-<h2 id="Javascript单元测试-与-TDD"><a href="#Javascript单元测试-与-TDD" class="headerlink" title="Javascript单元测试 与 TDD"></a>Javascript单元测试 与 TDD</h2><h3 id="TDD的概念和流程"><a href="#TDD的概念和流程" class="headerlink" title="TDD的概念和流程"></a>TDD的概念和流程</h3><p>TDD：测试驱动开发(Test Driven Development)</p>
+<p>为了解决以上问题，将借助JavaScript介绍敏捷团队如何选择适合的测试框架，快速、低成本搭建自动化测试框架。</p>
+<p>接下来将从测试金字塔的各个层面介绍：</p>
+<p><img src="/images/基于JavaScript的敏捷测试/测试金字塔.png" alt="测试金字塔"></p>
+<h2 id="JavaScript单元测试-与-TDD"><a href="#JavaScript单元测试-与-TDD" class="headerlink" title="JavaScript单元测试 与 TDD"></a>JavaScript单元测试 与 TDD</h2><h3 id="TDD的概念和流程"><a href="#TDD的概念和流程" class="headerlink" title="TDD的概念和流程"></a>TDD的概念和流程</h3><p>TDD：测试驱动开发(Test Driven Development)</p>
 <p>TDD是敏捷开发中的一项核心实践和技术，也是一种设计方法论，在开发功能代码之前，先编写单元测试用例代码，测试代码确定需要编写什么产品代码，整个过程通过测试来推动整个开发的进行，但测试驱动开发并不只是单纯的测试工作，而是把需求分析，设计，质量控制量化的过程，通过编写测试用例，先考虑代码的使用需求（包括功能、过程、接口等），而且这个描述是无二义的，可执行验证的。通过编写这部分代码的测试用例，对其功能的分解、使用过程、接口都进行了设计。而且这种从使用角度对代码的设计通常更符合后期开发的需求。可测试的要求，对代码的内聚性的提高和复用都非常有益。</p>
 <p>其中更重要的是在使用TDD的思想开发的时候<strong>重构</strong>方式，也就是TDD = TFD（Test First Development） + Refactoring</p>
 <p>整个使用TDD开发的流程（对应下图）概括起来是：</p>
@@ -27,7 +28,7 @@
 <li>对代码进行重构，移掉重复的代码，并保证测试通过。</li>
 <li>循环完成所有功能的开发。</li>
 </ul>
-<p><img src="/images/基于Javascript的敏捷测试/TDD.png" alt="TDD"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/TDD.png" alt="TDD"></p>
 <h3 id="单元测试的实践方式与优势"><a href="#单元测试的实践方式与优势" class="headerlink" title="单元测试的实践方式与优势"></a>单元测试的实践方式与优势</h3><p>当然，整个过程不会那么顺利，尤其是在一些业务场景复杂的时候，很难保证划分的单元（Unit）足够小。很多团队实践起TDD对整体的开发效率、开发质量并没有显著提高，这时就需要借鉴一些最佳实践来帮助团队更好地完成TDD，提高开发效率。比如以下几点：</p>
 <ul>
 <li>测试隔离：编写测试代码时，只考虑测试，不考虑具体内部实现</li>
@@ -73,33 +74,43 @@
 <li>支持简单异步，包括 promises</li>
 <li>支持Unit Testing. API Testing. E2E Testing</li>
 </ul>
-<p>以上几种框架各有优缺点，在实际项目对框架选择时可以结合项目实际情况和人员技术栈来进行选择。对于Javascript测试可以参考如下代码结构，此结构在不同语言和框架使用时差别不大，在此不再赘述。</p>
-<p><img src="/images/基于Javascript的敏捷测试/单元测试代码结构.png" alt="单元测试代码结构"></p>
-<h2 id="Javascript-API测试"><a href="#Javascript-API测试" class="headerlink" title="Javascript API测试"></a>Javascript API测试</h2><h3 id="API测试类型和特点"><a href="#API测试类型和特点" class="headerlink" title="API测试类型和特点"></a>API测试类型和特点</h3><p>单元测试侧重于函数的内部逻辑实现，而API测试侧重于暴露出来的功能是否能够很好的满足使用者的需要。从API提供方类型区分，包括Public API提供或者第三方提供API服务的情况，和同一项目的项目代码前后端分离，后端暴露接口，前端消费后端提供的数据，它们之间通过REST接口通信的情况。不管是哪种，保证提供的API提供的服务是可用的都是必不可少需要测试的内容。</p>
-<p><img src="/images/基于Javascript的敏捷测试/API测试.png" alt="API测试"></p>
+<p>以上几种框架各有优缺点，在实际项目对框架选择时可以结合项目实际情况和人员技术栈来进行选择。对于JavaScript测试可以参考如下代码结构，此结构在不同语言和框架使用时差别不大，在此不再赘述。</p>
+<p><img src="/images/基于JavaScript的敏捷测试/单元测试代码结构.png" alt="单元测试代码结构"></p>
+<h2 id="JavaScript-API测试"><a href="#JavaScript-API测试" class="headerlink" title="JavaScript API测试"></a>JavaScript API测试</h2><h3 id="API测试类型和特点"><a href="#API测试类型和特点" class="headerlink" title="API测试类型和特点"></a>API测试类型和特点</h3><p>单元测试侧重于函数的内部逻辑实现，而API测试侧重于外部集成需求。从API提供方类型区分，包括Public API提供或者第三方提供API服务的情况，和同一项目的项目代码前后端分离，后端暴露接口，前端消费后端提供的数据，它们之间通过REST接口通信的情况。不管是哪种，保证提供的API提供的服务是可用的都是必不可少需要测试的内容。</p>
+<p><img src="/images/基于JavaScript的敏捷测试/API测试.png" alt="API测试"></p>
 <h3 id="API测试方式"><a href="#API测试方式" class="headerlink" title="API测试方式"></a>API测试方式</h3><p>在具体测试时，针对API的测试方式大体可以分为两种：使用工具测试API和使用代码测试API。当然，一些好的测试工具同时也支持写一些自定义的code来帮助验证API返回值是否正确等。同样，下面也列出了一些简单易上手的开源API工具和框架。</p>
-<p><img src="/images/基于Javascript的敏捷测试/API测试方式.png" alt="API测试方式"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/API测试方式.png" alt="API测试方式"></p>
 <h4 id="API测试工具"><a href="#API测试工具" class="headerlink" title="API测试工具"></a>API测试工具</h4><p>当你的团队需要用最小的成本快速验证服务时候选择这种方式绝对是第一选择。</p>
-<p><img src="/images/基于Javascript的敏捷测试/API测试工具.png" alt="API测试工具"></p>
+<p><a href="https://www.getpostman.com/" target="_blank" rel="external">Postman</a> 是一个在Chrome中使用的REST客户端插件，通过Postman，你可以创建请求并且分析服务器端返回的信息。这个工具在开发新的API或者实现对于已有API的客户端访问代码时非常有用。通过使用Postman，你可以查看历史调用记录，并且可以非常友好的编辑测试数据去测试API在不同请求下的返回。同时，虽然不鼓励录屏式的测试方法，但是Postman提供了一系列的拓展，能允许使用者将它作为跑测试的工具。 有以下特点：</p>
 <ul>
-<li>Postman是一个在Chrome中使用的REST客户端插件，通过Postman，你可以创建请求并且分析服务器端返回的信息。这个工具在开发新的API或者实现对于已有API的客户端访问代码时非常有用。通过使用Postman，你可以查看你通过Postman之前发起过的请求，并且可以非常友好的编辑测试数据去测试API在不同请求下的返回。同时，虽然不鼓励录屏式的测试方法，但是Postman提供了一系列的拓展允许使用者将它作为跑测试的工具。 </li>
-<li>SoapUI是一个开源的，跨平台的测试工具。它拥有自动操作功能、回归、合规以及SOAP和REST web服务的负载测试。它配备了一个易于使用的图形界面，并支持行业领先的技术和标准，以模拟和鼓励web服务的行为。</li>
+<li>使用简单，方便</li>
+<li>轻量级</li>
+<li>用户体验好</li>
+<li>可使用newman 集成CI/CD</li>
+</ul>
+<p><a href="https://www.soapui.org/" target="_blank" rel="external">SoapUI</a> 是一个开源的，跨平台的测试工具。它支持功能测试、回归测试以及SOAP和REST web服务的负载测试并配备了一个易于使用的图形界面，并支持行业领先的技术和标准，以模拟和鼓励web服务的行为。有以下特点：</p>
+<ul>
+<li>功能丰富</li>
+<li>容易集成</li>
+<li>模拟真实的Service</li>
+<li>测试自动化</li>
+<li>使用麻烦</li>
 </ul>
 <h4 id="API测试框架"><a href="#API测试框架" class="headerlink" title="API测试框架"></a>API测试框架</h4><p>通过编写代码的方式进行API测试能够最大程度帮团队自动化回归测试，验证服务的正确性，同时帮助自定义对API的验证，让团队尽早发现服务中存在的问题。</p>
-<p><img src="/images/基于Javascript的敏捷测试/API测试框架.png" alt="API测试框架"></p>
-<h2 id="Javascript-契约测试-与-ATDD"><a href="#Javascript-契约测试-与-ATDD" class="headerlink" title="Javascript 契约测试 与 ATDD"></a>Javascript 契约测试 与 ATDD</h2><h3 id="ATDD的概念和流程"><a href="#ATDD的概念和流程" class="headerlink" title="ATDD的概念和流程"></a>ATDD的概念和流程</h3><p>ATDD: 验收测试驱动开发(Acceptance Test Driven Development）</p>
+<p><img src="/images/基于JavaScript的敏捷测试/API测试框架.png" alt="API测试框架"></p>
+<h2 id="JavaScript-契约测试-与-ATDD"><a href="#JavaScript-契约测试-与-ATDD" class="headerlink" title="JavaScript 契约测试 与 ATDD"></a>JavaScript 契约测试 与 ATDD</h2><h3 id="ATDD的概念和流程"><a href="#ATDD的概念和流程" class="headerlink" title="ATDD的概念和流程"></a>ATDD的概念和流程</h3><p>ATDD: 验收测试驱动开发(Acceptance Test Driven Development）</p>
 <p>前文谈论的TDD更多的是从开发者的角度针对小的功能单元进行测试驱动开发，其实还存在另外一种角度，从客户的角度出发，针对客户的验收标准来测试驱动产品的开发，也就是ATDD，帮助开发人员和测试人员在实施之前了解客户的需求，并允许客户能够以自己的域语言交谈。这两种角度共同保证最终的产品是符合客户需要的正确的产品。</p>
-<p><img src="/images/基于Javascript的敏捷测试/TDD与ATDD.png" alt="TDD与ATDD"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/TDD与ATDD.png" alt="TDD与ATDD"></p>
 <p>ATDD工作流程如下图所示，首先由开发团队和客户讨论出具体的验收标准，而后提取出具体可验收的验收测试，开发人员以此作为Guide line开发产品代码，完成最后的可交付产品。整个过程最重要的特点是强调关注于业务价值且任何一个功能都有清晰的功能完成的标志 – 即验收标准。</p>
-<p><img src="/images/基于Javascript的敏捷测试/ATDD工作流程.png" alt="ATDD工作流程"></p>
-<h3 id="契约测试概念"><a href="#契约测试概念" class="headerlink" title="契约测试概念"></a>契约测试概念</h3><p>Javascript契约测试其实从严格意义上来讲也是API测试的一种，是为了测试与其他团队合作时，其他团队提供服务的是否符合使用者要求的一种测试。契约测试可能会涉及到一些概念如下：</p>
+<p><img src="/images/基于JavaScript的敏捷测试/ATDD工作流程.png" alt="ATDD工作流程"></p>
+<h3 id="契约测试概念"><a href="#契约测试概念" class="headerlink" title="契约测试概念"></a>契约测试概念</h3><p>JavaScript契约测试其实从严格意义上来讲也是API测试的一种，是为了测试与其他团队合作时，其他团队提供服务的是否符合使用者要求的一种测试。契约测试可能会涉及到一些概念如下：</p>
 <p>Consumer: Service的使用者，向provider发起HTTP请求来获取数据；</p>
 <p>Provider: Service的提供者，接受consumer的HTTP请求并返回数据；</p>
 <p>Contract: 契约，一种定义在consumer与provider之间的交互方式；</p>
-<p><img src="/images/基于Javascript的敏捷测试/Contract.png" alt="Contract"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/Contract.png" alt="Contract"></p>
 <p>契约测试的使用场景有很多，其中最为典型的一种便是在一个服务被多个使用者调用的时候，保证service的修改不会对其他的使用者造成影响，若造成了改变也能立刻发现定位问题。这种场景在微服务越来越流行的当下就更加容易出现，微服务为了实现有效的拆分应用，实现敏捷开发和部署的目的，要求我们把服务拆分尽量小的单位。其他团队所提供的API是否能够持续而稳定的提供正确的服务，则是我们更要关注的重点。</p>
 <h3 id="消费者驱动的契约测试"><a href="#消费者驱动的契约测试" class="headerlink" title="消费者驱动的契约测试"></a>消费者驱动的契约测试</h3><p>契约测试中的契约由谁来提供呢？在此我们可以有两种选择，由API开发团队（Provider）提供或API使用团队(Consumer)提供。那在这里更加推荐的是由Consumer提供契约，即为消费者驱动的契约测试(Consumer Driven Contract Testing)。</p>
-<p><img src="/images/基于Javascript的敏捷测试/消费者驱动的契约测试.png" alt="消费者驱动的契约测试"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/消费者驱动的契约测试.png" alt="消费者驱动的契约测试"></p>
 <p>试想一种场景，假如当前项目有一个复杂的业务，Provider团队根据自己对业务的理解，开发出一套service给Consumer使用并开发前端，最终提供给客户交付时，客户看到后觉得并不是自己想要的效果，需要多加一个字段，那么这个需求再次提给Consumer团队响应，最后再次Provider团队要更改自己的service。整个过程非常的长，尤其在这种跨团队的协作时，对于复杂的业务只有Consumer对业务是最为理解的，因为他们是距离客户最近的团队，每天与客户进行交付验证，他们应该是最了解客户真实业务需求的团队，整个过程以Consumer的视角来设计针对外部服务的契约测试。所以真正的契约由Consumer团队提供，只有这样才能最大程度的避免反复的修改。</p>
 <p>有了契约存在于两个团队之间，也能帮助解决开发过程中责任链混乱的情况，当客户在验证时发现服务挂了无法访问，可以优先查看契约测试是否挂了，如果挂了，则说明问题出现在提供的服务上。契约测试作为一种验证的方式，也可以帮助我们在API部署前优先验证提供服务是否正确，而不是部署到hign region后才发现问题。</p>
 <p>在项目中使用消费者驱动的契约测试的具体操作流程如下图：</p>
@@ -107,7 +118,7 @@
 <li>Consumer端提供Mock服务来模拟Provider并生成Contract文件。</li>
 <li>Provider端拿到Contract以来验证Provider的服务。</li>
 </ul>
-<p><img src="/images/基于Javascript的敏捷测试/消费者驱动的契约测试操作.png" alt="消费者驱动的契约测试操作"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/消费者驱动的契约测试操作.png" alt="消费者驱动的契约测试操作"></p>
 <p>其实，消费者驱动的契约测试本质上是一种技术和态度，强调的是团队间合作开发时良好的沟通方式，团队间良好的沟通和文档都可以作为契约约束团队间的交互方式。但是很多时候，我们还是喜欢把具体的思想通过工具来落实，所以接下来就介绍一款契约测试的工具 – Pact。</p>
 <h3 id="Pact"><a href="#Pact" class="headerlink" title="Pact"></a>Pact</h3><p>Pact的具体使用流程如下：</p>
 <p>Consumer团队</p>
@@ -116,19 +127,19 @@
 <li>发送Http request，Pact拦截住此请求并发给Mock service</li>
 <li>Mock service根据定义好的交互方式返回结果并生成pact契约文件</li>
 </ul>
-<p><img src="/images/基于Javascript的敏捷测试/PACT-Consumer.png" alt="PACT-Consumer"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/PACT-Consumer.png" alt="PACT-Consumer"></p>
 <p>Provider团队</p>
 <ul>
 <li>实时获取pact契约文件</li>
 <li>使用pact契约文件验证API service</li>
 </ul>
-<p><img src="/images/基于Javascript的敏捷测试/PACT-Provider.png" alt="PACT-Provider"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/PACT-Provider.png" alt="PACT-Provider"></p>
 <p>Pact的具体工作流程如下图所示，ConsumerA编写测试定义期望的服务request和response，与此同时生成契约文件，此文件可以Publish到Pact Broker或其他地方，甚至也可以直接传给Provider团队。Consumer此时可以继续以此测试驱动开发具体的实现代码。与此同时，Provider拿到契约文件后，可以进行验证并驱动API的开发，直到契约测试Pass。此时如果更改实现代码时不小心修改到另外一个使用同一服务的ConsumerB，Provider也能在部署前立刻了解到这个信息，及时进行沟通解决。多个团队完成整个操作后，将各自实现代码部署到hign region后，此时的版本应该是满足基本契约要求的服务。整个过程中多个团队可以并行协作，同时开发，加快了开发交付效率。</p>
-<p><img src="/images/基于Javascript的敏捷测试/PACT-Workflow.png" alt="PACT-Workflow"></p>
-<h2 id="Javascript-Web-功能测试-与-BDD"><a href="#Javascript-Web-功能测试-与-BDD" class="headerlink" title="Javascript Web 功能测试 与 BDD"></a>Javascript Web 功能测试 与 BDD</h2><h3 id="BDD的概念与框架"><a href="#BDD的概念与框架" class="headerlink" title="BDD的概念与框架"></a>BDD的概念与框架</h3><p>介绍过金字塔的最下层单元测试，而后我们介绍了中间层API测试和契约测试，最后上层便是更加贴近最终用户的Web功能测试。现在业界比较流行的一种方式是选择BDD的方式来做该层测试。</p>
+<p><img src="/images/基于JavaScript的敏捷测试/PACT-Workflow.png" alt="PACT-Workflow"></p>
+<h2 id="JavaScript-Web-功能测试-与-BDD"><a href="#JavaScript-Web-功能测试-与-BDD" class="headerlink" title="JavaScript Web 功能测试 与 BDD"></a>JavaScript Web 功能测试 与 BDD</h2><h3 id="BDD的概念与框架"><a href="#BDD的概念与框架" class="headerlink" title="BDD的概念与框架"></a>BDD的概念与框架</h3><p>介绍过金字塔的最下层单元测试，而后我们介绍了中间层API测试和契约测试，最后上层便是更加贴近最终用户的Web功能测试。现在业界比较流行的一种方式是选择BDD的方式来做该层测试。</p>
 <p>BDD: 行为驱动开发(Behavior Driven Development）</p>
 <p>从用户行为的角度编写测试，也是ATDD的具体特定实践。</p>
-<p><img src="/images/基于Javascript的敏捷测试/BDD.png" alt="BDD"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/BDD.png" alt="BDD"></p>
 <p>BDD具体的实践框架有很多，比如：</p>
 <ul>
 <li>Cucumber</li>
@@ -138,11 +149,11 @@
 <li>Concordion</li>
 </ul>
 <p>那么，接下来我们就选取Cucumber来分析具体如何使用。</p>
-<p><img src="/images/基于Javascript的敏捷测试/Cucumber.png" alt="Cucumber"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/Cucumber.png" alt="Cucumber"></p>
 <p>Cucumber框架在使用时，具体的行为由Feature文件来定义，每一个Feature文件中可以有很多个Scenario，不同的Scenario中存在一步步以Given/When/Then的形式来定义的Step，如下图为一个Feature文件中的一个Scenario，其中以自然语言定义了很多完成整个业务流程的步骤。</p>
-<p><img src="/images/基于Javascript的敏捷测试/Cucumber-Workflow.png" alt="Cucumber-Workflow"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/Cucumber-Workflow.png" alt="Cucumber-Workflow"></p>
 <h3 id="自动化测试架构"><a href="#自动化测试架构" class="headerlink" title="自动化测试架构"></a>自动化测试架构</h3><p>搭建Web功能自动化架构时候可选择的框架非常多，不免让人眼花缭乱，哪一种才是最好的、最快捷的搭建方式，其实了解了整个自动化测试的架构，再根据项目具体情况选择框架，整个过程就变得简单明了。我们首先看下下图功能测试架构图：</p>
-<p><img src="/images/基于Javascript的敏捷测试/功能测试架构.png" alt="功能测试架构"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/功能测试架构.png" alt="功能测试架构"></p>
 <p>被测系统，需要测试的系统，比如是Web系统。</p>
 <p>上层为测试框架，在此将其分为三层，分别为：驱动层、连接层、表现层。</p>
 <p>驱动层，Selenium这一层，有了它们用例才能和被测系统进行交互（Selenium为支持多语言，多浏览器的开源Web自动化测试工具）。</p>
@@ -158,7 +169,7 @@
 <h2 id="其他测试"><a href="#其他测试" class="headerlink" title="其他测试"></a>其他测试</h2><h3 id="视觉感知测试"><a href="#视觉感知测试" class="headerlink" title="视觉感知测试"></a>视觉感知测试</h3><p>介绍过测试金字塔最主要的三层，最上层为手动测试或其他类型的测试，这个其他类型就非常之多。在此只简单介绍一个很有趣的测试类型 – 视觉感知测试。</p>
 <p>不知你是否有过这样的经历，团队因为遵循的敏捷迭代开发的工作流程，模块A在迭代1上线了，其功能和UI已经测试完毕，模块B在迭代2开发过程中，有一天发现，模块A的页面元素按钮由左边移到右边，究其原因是因为某个开发更改某元素CSS时候更改到公共组件。这种改变就算是测试们在每次上线前手动测试也未必能够发现，因为页面上pixel级别元素更改肉眼很难快速发现。如果项目有这样的需求可以考虑引入视觉感知测试解决。</p>
 <p>视觉感知测试适用场景主要有以下两种:</p>
-<p><img src="/images/基于Javascript的敏捷测试/Diff适用场景.png" alt="Diff适用场景"></p>
+<p><img src="/images/基于JavaScript的敏捷测试/Diff适用场景.png" alt="Diff适用场景"></p>
 <p>视觉感知测试就是使用传统的对图片进行二进制比较的办法，结合敏捷迭代开发的理念，产生的一种针对界面布局的自动化测试方法。</p>
 <p>为了能够最小代价完成该类型测试，我们可以结合前面提到的功能自动化测试，对功能自动化测试中的截图加以利用，对比图片更改。将其添加为UI自动化测试的最后一步。</p>
 <p>具体操作步骤：</p>
@@ -168,14 +179,14 @@
 <li>配对并像素级别的图形比较</li>
 </ul>
 <p>对图片进行对比可以有很多方式，也有一些比较成熟的工具，如Viff，但这里介绍一个非常轻量级图像对比工具 – Blink-diff，可以用npm一键安装，该工具对比效果如下（图片元素不同处已用蓝色标记）：</p>
-<p><img src="/images/基于Javascript的敏捷测试/Diff.png" alt="Diff"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文基于Javascript这门热门且轻量级的语言作为辅助，介绍了团队在整个敏捷测试流程中如何快速在单元、集成、端到端方面从不同角度搭建起完整的自动化测试框架。相关具体实践已经有完整的Demo在如下Repo中。</p>
+<p><img src="/images/基于JavaScript的敏捷测试/Diff.png" alt="Diff"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文基于JavaScript这门热门且轻量级的语言作为辅助，介绍了团队在整个敏捷测试流程中如何快速在单元、集成、端到端方面从不同角度搭建起完整的自动化测试框架。相关具体实践已经有完整的Demo在如下Repo中。</p>
 <p>参考资料：</p>
 <ul>
 <li>推荐 Kent Beck 的书 Test-Driven Development: By Example ，中文版<a href="http://www.china-pub.com/computers/common/info.asp?id=14701" target="_blank" rel="external">《测试驱动开发》</a> </li>
 <li>本文相关的<a href="https://github.com/SiyuYan/agileTour" target="_blank" rel="external">代码</a>。</li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixsr8dwh0006aunblyo8yyeg" data-title="基于Javascript的敏捷测试" data-url="http://siyuyan.github.io/2017/01/07/基于Javascript的敏捷测试/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
+</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixssar3b0004i2nbyb4il1qa" data-title="基于JavaScript的敏捷测试" data-url="http://siyuyan.github.io/2017/01/07/基于Javascript的敏捷测试/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
 var duoshuoQuery = {short_name: siteName};
 (function() {
   var ds = document.createElement('script');
