@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>基于JavaScript敏捷测试（下篇） - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">基于JavaScript敏捷测试（下篇）</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>4 Minutes</li><li><i class="icon icon-calendar"></i>January 11, 2017</li></ul></div></div><div class="article-content"><p>在前两篇文章中， 我们介绍了许多关于单元测试和TDD、API测试和消费者驱动的契约测试的内容，详情请参见<a href="http://siyuyan.github.io/2017/01/07/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8A%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（上篇）》</a><a href="http://siyuyan.github.io/2017/01/11/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%AD%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（中篇）》</a></p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Siyu, 18200289607@qq.com"><title>基于JavaScript敏捷测试（下篇） · Siyu</title><meta name="description" content="在前两篇文章中， 我们介绍了许多关于单元测试和TDD、API测试和消费者驱动的契约测试的内容，详情请参见《基于JavaScript敏捷测试（上篇）》《基于JavaScript敏捷测试（中篇）》
+JavaScript Web 功能测试 与 BDDBDD的概念与框架介绍过金字塔的最下层单元测试，而后我们"><meta name="keywords" content="Hexo,测试,AWS,安全"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/ds-embed.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Siyu</a></h3><div class="description"><p>If it hurts, do it more often.</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img src="/default_images/author_head.gif"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>基于JavaScript敏捷测试（下篇）</a></h3></div><div class="post-content"><p>在前两篇文章中， 我们介绍了许多关于单元测试和TDD、API测试和消费者驱动的契约测试的内容，详情请参见<a href="http://siyuyan.github.io/2017/01/07/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8A%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（上篇）》</a><a href="http://siyuyan.github.io/2017/01/11/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%AD%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（中篇）》</a></p>
 <h2 id="JavaScript-Web-功能测试-与-BDD"><a href="#JavaScript-Web-功能测试-与-BDD" class="headerlink" title="JavaScript Web 功能测试 与 BDD"></a>JavaScript Web 功能测试 与 BDD</h2><h3 id="BDD的概念与框架"><a href="#BDD的概念与框架" class="headerlink" title="BDD的概念与框架"></a>BDD的概念与框架</h3><p>介绍过金字塔的最下层单元测试，而后我们介绍了中间层API测试和契约测试，最后上层便是更加贴近最终用户的Web功能测试。现在业界比较流行的一种方式是选择BDD的方式来做该层测试。</p>
 <p>BDD: 行为驱动开发(Behavior Driven Development）</p>
 <p>从用户行为的角度编写测试，也是ATDD的具体特定实践。</p>
-<p><img src="/images/基于JavaScript敏捷测试/BDD.png" alt="BDD"></p>
+<p><img src="BDD.png" alt="BDD"></p>
 <p>BDD具体的实践框架有很多，比如：</p>
 <ul>
 <li>Cucumber</li>
@@ -12,11 +13,11 @@
 <li>Concordion</li>
 </ul>
 <p>那么，接下来我们就选取Cucumber来分析具体如何使用。</p>
-<p><img src="/images/基于JavaScript敏捷测试/Cucumber.png" alt="Cucumber"></p>
+<p><img src="Cucumber.png" alt="Cucumber"></p>
 <p>Cucumber框架在使用时，具体的行为由Feature文件来定义，每一个Feature文件中可以有很多个Scenario，不同的Scenario中存在一步步以Given/When/Then的形式来定义的Step，如下图为一个Feature文件中的一个Scenario，其中以自然语言定义了很多完成整个业务流程的步骤。</p>
-<p><img src="/images/基于JavaScript敏捷测试/Cucumber-Workflow.png" alt="Cucumber-Workflow"></p>
+<p><img src="Cucumber-Workflow.png" alt="Cucumber-Workflow"></p>
 <h3 id="自动化测试架构"><a href="#自动化测试架构" class="headerlink" title="自动化测试架构"></a>自动化测试架构</h3><p>搭建Web功能自动化架构时候可选择的框架非常多，不免让人眼花缭乱，哪一种才是最好的、最快捷的搭建方式，其实了解了整个自动化测试的架构，再根据项目具体情况选择框架，整个过程就变得简单明了。我们首先看下下图功能测试架构图：</p>
-<p><img src="/images/基于JavaScript敏捷测试/功能测试架构.png" alt="功能测试架构"></p>
+<p><img src="功能测试架构.png" alt="功能测试架构"></p>
 <p>被测系统，需要测试的系统，比如是Web系统。</p>
 <p>上层为测试框架，在此将其分为三层，分别为：驱动层、连接层、表现层。</p>
 <p>驱动层，Selenium这一层，有了它们用例才能和被测系统进行交互（Selenium为支持多语言，多浏览器的开源Web自动化测试工具）。</p>
@@ -32,7 +33,7 @@
 <h2 id="其他测试"><a href="#其他测试" class="headerlink" title="其他测试"></a>其他测试</h2><h3 id="视觉感知测试"><a href="#视觉感知测试" class="headerlink" title="视觉感知测试"></a>视觉感知测试</h3><p>介绍过测试金字塔最主要的三层，最上层为手动测试或其他类型的测试，这个其他类型就非常之多。在此只简单介绍一个很有趣的测试类型 – 视觉感知测试。</p>
 <p>不知你是否有过这样的经历，团队因为遵循的敏捷迭代开发的工作流程，模块A在迭代1上线了，其功能和UI已经测试完毕，模块B在迭代2开发过程中，有一天发现，模块A的页面元素按钮由左边移到右边，究其原因是因为某个开发更改某元素CSS时候更改到公共组件。这种改变就算是测试们在每次上线前手动测试也未必能够发现，因为页面上pixel级别元素更改肉眼很难快速发现。如果项目有这样的需求可以考虑引入视觉感知测试解决。</p>
 <p>视觉感知测试适用场景主要有以下两种:</p>
-<p><img src="/images/基于JavaScript敏捷测试/Diff适用场景.png" alt="Diff适用场景"></p>
+<p><img src="Diff适用场景.png" alt="Diff适用场景"></p>
 <p>视觉感知测试就是使用传统的对图片进行二进制比较的办法，结合敏捷迭代开发的理念，产生的一种针对界面布局的自动化测试方法。</p>
 <p>为了能够最小代价完成该类型测试，我们可以结合前面提到的功能自动化测试，对功能自动化测试中的截图加以利用，对比图片更改。将其添加为UI自动化测试的最后一步。</p>
 <p>具体操作步骤：</p>
@@ -42,20 +43,11 @@
 <li>配对并像素级别的图形比较</li>
 </ul>
 <p>对图片进行对比可以有很多方式，也有一些比较成熟的工具，如Viff，但这里介绍一个非常轻量级图像对比工具 – Blink-diff，可以用npm一键安装，该工具对比效果如下（图片元素不同处已用蓝色标记）：</p>
-<p><img src="/images/基于JavaScript敏捷测试/Diff.png" alt="Diff"></p>
+<p><img src="Diff.png" alt="Diff"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文基于JavaScript这门热门且轻量级的语言作为辅助，介绍了团队在整个敏捷测试流程中如何快速在单元、集成、端到端方面从不同角度搭建起完整的自动化测试框架。相关具体实践已经有完整的Demo在如下Repo中。</p>
 <p>参考资料：</p>
 <ul>
 <li>推荐 Kent Beck 的书 Test-Driven Development: By Example ，中文版<a href="http://www.china-pub.com/computers/common/info.asp?id=14701" target="_blank" rel="external">《测试驱动开发》</a> </li>
 <li>本文相关的<a href="https://github.com/SiyuYan/agileTour" target="_blank" rel="external">代码</a>。</li>
 </ul>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixsw2xn6000659nb0bnrhm80" data-title="基于JavaScript敏捷测试（下篇）" data-url="http://siyuyan.github.io/2017/01/11/基于JavaScript敏捷测试（下篇）/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
-var duoshuoQuery = {short_name: siteName};
-(function() {
-  var ds = document.createElement('script');
-  ds.type = 'text/javascript';ds.async = true;
-  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-  ds.charset = 'UTF-8';
-  (document.getElementsByTagName('head')[0] 
-  || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2017/01/11/基于JavaScript敏捷测试（中篇）/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="http://github.com/" title="GitHub" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="http://weibo.com/" title="Weibo" target="_blank"><i class="icon icon-weibo"></i></a></li><li><a href="http://www.segmentfault.com/u/bon" title="SegmentFault" target="_blank"><i class="icon icon-segmentfault"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2017 Siyu</p></div></div></body></html>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-01-11</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://siyuyan.github.io/2017/01/11/基于JavaScript敏捷测试（下篇）/,Siyu,基于JavaScript敏捷测试（下篇）,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a role="navigation" href="/2017/01/11/基于JavaScript敏捷测试（中篇）/" title="基于JavaScript敏捷测试（中篇）" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

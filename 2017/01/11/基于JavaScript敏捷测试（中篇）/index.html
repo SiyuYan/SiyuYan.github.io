@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><meta name="format-detection" content="telephone=no"><meta name="format-detection" content="email=no"><meta name="description"><meta name="keywords" content="Hexo, Gruntjs, Nodejs, Reactjs, Vuejs"><title>基于JavaScript敏捷测试（中篇） - Siyu</title><link rel="stylesheet" href="/css/main_style.min.css"><link rel="icon" href="/favicon.ico"></head><body><div class="post-header"><img class="background" src="/default_images/post_background.jpg"><div class="post-title"><h1 class="title">基于JavaScript敏捷测试（中篇）</h1><ul class="meta"><li><i class="icon icon-author"></i>Siyu Yan</li><li><i class="icon icon-clock"></i>6 Minutes</li><li><i class="icon icon-calendar"></i>January 11, 2017</li></ul></div></div><div class="article-content"><p>在<a href="http://siyuyan.github.io/2017/01/07/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8A%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（上篇）》</a>中我们介绍了许多单元测试和TDD的内容，本篇中将介绍如何在团队中快速搭建API测试和消费者驱动的契约测试框架。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Siyu, 18200289607@qq.com"><title>基于JavaScript敏捷测试（中篇） · Siyu</title><meta name="description" content="在《基于JavaScript敏捷测试（上篇）》中我们介绍了许多单元测试和TDD的内容，本篇中将介绍如何在团队中快速搭建API测试和消费者驱动的契约测试框架。
+JavaScript API测试API测试类型和特点单元测试侧重于函数的内部逻辑实现，而API测试侧重于外部集成需求。从API提供方类型区分，"><meta name="keywords" content="Hexo,测试,AWS,安全"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/ds-embed.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Siyu</a></h3><div class="description"><p>If it hurts, do it more often.</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/archives">归档</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img src="/default_images/author_head.gif"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>基于JavaScript敏捷测试（中篇）</a></h3></div><div class="post-content"><p>在<a href="http://siyuyan.github.io/2017/01/07/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8A%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（上篇）》</a>中我们介绍了许多单元测试和TDD的内容，本篇中将介绍如何在团队中快速搭建API测试和消费者驱动的契约测试框架。</p>
 <h2 id="JavaScript-API测试"><a href="#JavaScript-API测试" class="headerlink" title="JavaScript API测试"></a>JavaScript API测试</h2><h3 id="API测试类型和特点"><a href="#API测试类型和特点" class="headerlink" title="API测试类型和特点"></a>API测试类型和特点</h3><p>单元测试侧重于函数的内部逻辑实现，而API测试侧重于外部集成需求。从API提供方类型区分，包括Public API提供或者第三方提供API服务的情况，和同一项目的项目代码前后端分离，后端暴露接口，前端消费后端提供的数据，它们之间通过REST接口通信的情况。不管是哪种，保证提供的API提供的服务是可用的都是必不可少需要测试的内容。</p>
-<p><img src="/images/基于JavaScript敏捷测试/API测试.png" alt="API测试"></p>
+<p><img src="API测试.png" alt="API测试"></p>
 <h3 id="API测试方式"><a href="#API测试方式" class="headerlink" title="API测试方式"></a>API测试方式</h3><p>在具体测试时，针对API的测试方式大体可以分为两种：使用工具测试API和使用代码测试API。当然，一些好的测试工具同时也支持写一些自定义的code来帮助验证API返回值是否正确等。同样，下面也列出了一些简单易上手的开源API工具和框架。</p>
-<p><img src="/images/基于JavaScript敏捷测试/API测试方式.png" alt="API测试方式"></p>
+<p><img src="API测试方式.png" alt="API测试方式"></p>
 <h4 id="API测试工具"><a href="#API测试工具" class="headerlink" title="API测试工具"></a>API测试工具</h4><p>当你的团队需要用最小的成本快速验证服务时候选择这种方式绝对是第一选择。</p>
 <p><a href="https://www.getpostman.com/" target="_blank" rel="external">Postman</a> 是一个在Chrome中使用的REST客户端插件，通过Postman，你可以创建请求并且分析服务器端返回的信息。这个工具在开发新的API或者实现对于已有API的客户端访问代码时非常有用。通过使用Postman，你可以查看历史调用记录，并且可以非常友好的编辑测试数据去测试API在不同请求下的返回。同时，虽然不鼓励录屏式的测试方法，但是Postman提供了一系列的拓展，能允许使用者将它作为跑测试的工具。 有以下特点：</p>
 <ul>
@@ -20,20 +21,20 @@
 <li>使用麻烦</li>
 </ul>
 <h4 id="API测试框架"><a href="#API测试框架" class="headerlink" title="API测试框架"></a>API测试框架</h4><p>通过编写代码的方式进行API测试能够最大程度帮团队自动化回归测试，验证服务的正确性，同时帮助自定义对API的验证，让团队尽早发现服务中存在的问题。</p>
-<p><img src="/images/基于JavaScript敏捷测试/API测试框架.png" alt="API测试框架"></p>
+<p><img src="API测试框架.png" alt="API测试框架"></p>
 <h2 id="JavaScript-契约测试-与-ATDD"><a href="#JavaScript-契约测试-与-ATDD" class="headerlink" title="JavaScript 契约测试 与 ATDD"></a>JavaScript 契约测试 与 ATDD</h2><h3 id="ATDD的概念和流程"><a href="#ATDD的概念和流程" class="headerlink" title="ATDD的概念和流程"></a>ATDD的概念和流程</h3><p>ATDD: 验收测试驱动开发(Acceptance Test Driven Development）</p>
 <p>前文谈论的TDD更多的是从开发者的角度针对小的功能单元进行测试驱动开发，其实还存在另外一种角度，从客户的角度出发，针对客户的验收标准来测试驱动产品的开发，也就是ATDD，帮助开发人员和测试人员在实施之前了解客户的需求，并允许客户能够以自己的域语言交谈。这两种角度共同保证最终的产品是符合客户需要的正确的产品。</p>
-<p><img src="/images/基于JavaScript敏捷测试/TDD与ATDD.png" alt="TDD与ATDD"></p>
+<p><img src="TDD与ATDD.png" alt="TDD与ATDD"></p>
 <p>ATDD工作流程如下图所示，首先由开发团队和客户讨论出具体的验收标准，而后提取出具体可验收的验收测试，开发人员以此作为Guide line开发产品代码，完成最后的可交付产品。整个过程最重要的特点是强调关注于业务价值且任何一个功能都有清晰的功能完成的标志 – 即验收标准。</p>
-<p><img src="/images/基于JavaScript敏捷测试/ATDD工作流程.png" alt="ATDD工作流程"></p>
+<p><img src="ATDD工作流程.png" alt="ATDD工作流程"></p>
 <h3 id="契约测试概念"><a href="#契约测试概念" class="headerlink" title="契约测试概念"></a>契约测试概念</h3><p>JavaScript契约测试其实从严格意义上来讲也是API测试的一种，是为了测试与其他团队合作时，其他团队提供服务的是否符合使用者要求的一种测试。契约测试可能会涉及到一些概念如下：</p>
 <p>Consumer: Service的使用者，向provider发起HTTP请求来获取数据；</p>
 <p>Provider: Service的提供者，接受consumer的HTTP请求并返回数据；</p>
 <p>Contract: 契约，一种定义在consumer与provider之间的交互方式；</p>
-<p><img src="/images/基于JavaScript敏捷测试/Contract.png" alt="Contract"></p>
+<p><img src="Contract.png" alt="Contract"></p>
 <p>契约测试的使用场景有很多，其中最为典型的一种便是在一个服务被多个使用者调用的时候，保证service的修改不会对其他的使用者造成影响，若造成了改变也能立刻发现定位问题。这种场景在微服务越来越流行的当下就更加容易出现，微服务为了实现有效的拆分应用，实现敏捷开发和部署的目的，要求我们把服务拆分尽量小的单位。其他团队所提供的API是否能够持续而稳定的提供正确的服务，则是我们更要关注的重点。</p>
 <h3 id="消费者驱动的契约测试"><a href="#消费者驱动的契约测试" class="headerlink" title="消费者驱动的契约测试"></a>消费者驱动的契约测试</h3><p>契约测试中的契约提供方可以有两种选择，由API开发团队（Provider）提供或API使用团队(Consumer)提供。那在这里更加推荐的是由Consumer提供契约，即为消费者驱动的契约测试(Consumer Driven Contract Testing)。</p>
-<p><img src="/images/基于JavaScript敏捷测试/消费者驱动的契约测试.png" alt="消费者驱动的契约测试"></p>
+<p><img src="消费者驱动的契约测试.png" alt="消费者驱动的契约测试"></p>
 <p>试想一种场景，假如当前项目有一个复杂的业务，Provider团队根据自己对业务的理解，开发出一套service给Consumer使用并开发前端，最终提供给客户交付时，客户看到后觉得并不是自己想要的效果，需要多加一个字段，那么这个需求再次提给Consumer团队响应，最后再次Provider团队要更改自己的service。整个过程非常的长，尤其在这种跨团队的协作时，对于复杂的业务只有Consumer对业务是最为理解的，因为他们是距离客户最近的团队，每天与客户进行交付验证，他们应该是最了解客户真实业务需求的团队，整个过程以Consumer的视角来设计针对外部服务的契约测试。所以真正的契约由Consumer团队提供，只有这样才能最大程度的避免反复的修改。</p>
 <p>有了契约存在于两个团队之间，也能帮助解决开发过程中责任链混乱的情况，当客户在验证时发现服务挂了无法访问，可以优先查看契约测试是否挂了，如果挂了，则说明问题出现在提供的服务上。契约测试作为一种验证的方式，也可以帮助我们在API部署前优先验证提供服务是否正确，而不是部署到hign region后才发现问题。</p>
 <p>在项目中使用消费者驱动的契约测试的具体操作流程如下图：</p>
@@ -41,7 +42,7 @@
 <li>Consumer端提供Mock服务来模拟Provider并生成Contract文件。</li>
 <li>Provider端拿到Contract以来验证Provider的服务。</li>
 </ul>
-<p><img src="/images/基于JavaScript敏捷测试/消费者驱动的契约测试操作.png" alt="消费者驱动的契约测试操作"></p>
+<p><img src="消费者驱动的契约测试操作.png" alt="消费者驱动的契约测试操作"></p>
 <p>其实，消费者驱动的契约测试本质上是一种技术和态度，强调的是团队间合作开发时良好的沟通方式，团队间良好的沟通和文档都可以作为契约约束团队间的交互方式。但是很多时候，我们还是喜欢把具体的思想通过工具来落实，所以接下来就介绍一款契约测试的工具 – Pact。</p>
 <h3 id="Pact"><a href="#Pact" class="headerlink" title="Pact"></a>Pact</h3><p>Pact的具体使用流程如下：</p>
 <p>Consumer团队</p>
@@ -50,23 +51,14 @@
 <li>发送Http request，Pact拦截住此请求并发给Mock service</li>
 <li>Mock service根据定义好的交互方式返回结果并生成pact契约文件</li>
 </ul>
-<p><img src="/images/基于JavaScript敏捷测试/PACT-Consumer.png" alt="PACT-Consumer"></p>
+<p><img src="PACT-Consumer.png" alt="PACT-Consumer"></p>
 <p>Provider团队</p>
 <ul>
 <li>实时获取pact契约文件</li>
 <li>使用pact契约文件验证API service</li>
 </ul>
-<p><img src="/images/基于JavaScript敏捷测试/PACT-Provider.png" alt="PACT-Provider"></p>
+<p><img src="PACT-Provider.png" alt="PACT-Provider"></p>
 <p>Pact的具体工作流程如下图所示，ConsumerA编写测试定义期望的服务request和response，与此同时生成契约文件，此文件可以Publish到Pact Broker或其他地方，甚至也可以直接传给Provider团队。Consumer此时可以继续以此测试驱动开发具体的实现代码。与此同时，Provider拿到契约文件后，可以进行验证并驱动API的开发，直到契约测试Pass。此时如果更改实现代码时不小心修改到另外一个使用同一服务的ConsumerB，Provider也能在部署前立刻了解到这个信息，及时进行沟通解决。多个团队完成整个操作后，将各自实现代码部署到hign region后，此时的版本应该是满足基本契约要求的服务。整个过程中多个团队可以并行协作，同时开发，加快了开发交付效率。</p>
-<p><img src="/images/基于JavaScript敏捷测试/PACT-Workflow.png" alt="PACT-Workflow"></p>
+<p><img src="PACT-Workflow.png" alt="PACT-Workflow"></p>
 <p>后续关于JavaScript Web功能测试内容，请见<a href="http://siyuyan.github.io/2017/01/11/%E5%9F%BA%E4%BA%8EJavaScript%E6%95%8F%E6%8D%B7%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8B%E7%AF%87%EF%BC%89/">《基于JavaScript敏捷测试（下篇）》</a></p>
-</div><div class="article-meta"></div><div class="article-comment"><div class="ds-thread" id="ds-thread" data-thread-key="cixsw2xn9000759nb5ub9feun" data-title="基于JavaScript敏捷测试（中篇）" data-url="http://siyuyan.github.io/2017/01/11/基于JavaScript敏捷测试（中篇）/" site-name="ueibo"></div><script>var siteName = document.getElementById('ds-thread').getAttribute('site-name');
-var duoshuoQuery = {short_name: siteName};
-(function() {
-  var ds = document.createElement('script');
-  ds.type = 'text/javascript';ds.async = true;
-  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-  ds.charset = 'UTF-8';
-  (document.getElementsByTagName('head')[0] 
-  || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div><ul class="navication"><li class="home"><a href="/"><i class="icon icon-home"></i></a></li><li><a href="/2017/01/11/基于JavaScript敏捷测试（下篇）/"><i class="icon icon-arror-left"></i></a></li><li><a href="/2017/01/07/基于JavaScript敏捷测试（上篇）/"><i class="icon icon-arror-right"></i></a></li></ul><div class="page-footer"><div class="top"><ul class="social"><li><a href="http://github.com/" title="GitHub" target="_blank"><i class="icon icon-github"></i></a></li><li><a href="http://weibo.com/" title="Weibo" target="_blank"><i class="icon icon-weibo"></i></a></li><li><a href="http://www.segmentfault.com/u/bon" title="SegmentFault" target="_blank"><i class="icon icon-segmentfault"></i></a></li></ul></div><div class="bottom"><p class="copyright">© 2017 Siyu</p></div></div></body></html>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-01-11</span><i class="fa fa-tag"></i></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://siyuyan.github.io/2017/01/11/基于JavaScript敏捷测试（中篇）/,Siyu,基于JavaScript敏捷测试（中篇）,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/2017/01/11/基于JavaScript敏捷测试（下篇）/" title="基于JavaScript敏捷测试（下篇）" class="btn">上一篇</a></li><li class="next pagbuttons"><a role="navigation" href="/2017/01/07/基于JavaScript敏捷测试（上篇）/" title="基于JavaScript敏捷测试（上篇）" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
