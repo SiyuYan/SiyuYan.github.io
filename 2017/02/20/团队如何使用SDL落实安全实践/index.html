@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Siyu, 18200289607@qq.com"><title>团队如何使用SDL落实安全实践 · Siyu</title><meta name="description" content="最近一直在某金融保险项目上工作，这个项目的开发、交付到维护阶段团队都有过不少关于安全的实践，于是便想总结一下。
+项目上使用了Microsoft Secure Development Lifecycle (以下简称SDL)这一套完整安全体系来保障项目的安全。在使用时将整个过程分为四个阶段，每个阶段有着"><meta name="keywords" content="Hexo,测试,AWS,安全"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/ds-embed.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Siyu</a></h3><div class="description"><p>If it hurts, do it more often.</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Publish by</span></a><a href="https://github.com/SiyuYan"> Siyu</a><span></span><div class="by_farbox"></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><!--li--><!--  if is_current('categories')--><!--    a.current(href="/categories")= __('Categories')--><!--  else--><!--    a(href="/categories")= __('Categories')--></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"></a></li></div><div class="avatar"><img src="/default_images/author_head.gif"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>团队如何使用SDL落实安全实践</a></h3></div><div class="post-content"><p><img src="SDL.png" alt="SDL"></p>
+<p>最近一直在某金融保险项目上工作，这个项目的开发、交付到维护阶段团队都有过不少关于安全的实践，于是便想总结一下。</p>
+<p>项目上使用了<a href="http://www.microsoft.com/en-us/SDL" target="_blank" rel="external">Microsoft Secure Development Lifecycle</a> (以下简称SDL)这一套完整安全体系来保障项目的安全。在使用时将整个过程分为四个阶段，每个阶段有着不同的实践来保证安全。</p>
+<p><img src="Overview.png" alt="Overview"></p>
+<h2 id="System-Risk-Profile"><a href="#System-Risk-Profile" class="headerlink" title="System Risk Profile"></a>System Risk Profile</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>Evaluate your project using the system risk profile to identify its critically and determine which steps of the SDL need to be performed.</p>
+<p>概括来说就是通过这项实践来评定系统的安全等级，从而分析出哪些SDL的活动是必须做的。</p>
+<p>举个例子，如果系统在Accessibility这一项评定为内部系统，同时其他方面也都不是有需要严重安全保护的，那安全等级就不需要特别高，对于上图中的所有实践活动不需要全部完成，只需要完成*标记的重要类型实践就够了。相反如果系统在完成上述不同方面评定后定位为高安全等级，那么对于后续活动就必须要全部完成了。</p>
+<p>对于不同上述评定方面每个占有的系数为多少则需要企业自己评定出标准的系数级别。</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ul>
+<li>Select the system type of change</li>
+<li>Complete the system risk profile</li>
+<li>Analyze the security rate</li>
+<li>Get SDL activities in each phase if required</li>
+<li>Must complete all SDL activities which are required</li>
+</ul>
+<p>首先要对系统的类型进行选择：</p>
+<h4 id="System-change-type"><a href="#System-change-type" class="headerlink" title="System change type"></a>System change type</h4><ul>
+<li>Simple Website</li>
+<li>Dynamic Website or Application</li>
+<li>Commercial Product(no Customisation)</li>
+<li>Commercial Product(with Customisation)</li>
+<li>API or Middleware</li>
+<li>Software or Physical Appliance</li>
+</ul>
+<p>然后从各个方面来针对系统的<strong>安全等级</strong>进行评估：</p>
+<h4 id="System-risk-profile"><a href="#System-risk-profile" class="headerlink" title="System risk profile"></a>System risk profile</h4><ul>
+<li>Accessibility : 1. Can the system be accessed from the external networks including the Internet or just from the internal network?</li>
+<li>Functionality: 2. What type of functionality does the system provide?</li>
+<li>Data Sensitivity: 3. What is the sensitivity of the data that is used or processed by the system?</li>
+<li>Access Control: 4. Does the system restrict access through the use of the access controls like username and password?</li>
+<li>Data Sanitisation: 5. Will data used in non-production systems be sanitised?</li>
+<li>Critical List: 6. Is the system on the business critical list?</li>
+<li>New Technology: 7. Does the system use new technology that has been used previous?</li>
+<li>Store Credit Card Data: 8. Does the system store or process credit card data?</li>
+<li>External Party Managed: 9. Will the system be managed, supported or require regular access by an external party ?</li>
+<li>Standard Platform: 10. Will the system be used as a standard platform service?</li>
+</ul>
+<p>从而得出系统Security Rate，High, Medium, Low……不同等级对应<strong>必做的</strong>活动不同。</p>
+<h2 id="Security-Controls-Assessment"><a href="#Security-Controls-Assessment" class="headerlink" title="Security Controls Assessment"></a>Security Controls Assessment</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>The Security Controls Assessment(SCA) lists common controls across the different security domains.</p>
+<p>安全控制往往对系统的安全影响很大，对系统的安全控制评估必不可少，需要考虑的方面分别有：</p>
+<h4 id="Access-Control"><a href="#Access-Control" class="headerlink" title="Access Control"></a>Access Control</h4><p>1.1 User identity management<br>1.2 User lifecycle management(Added and Removed)<br>1.3  User authorisation(Access to functionality with)<br>1.4 Privilege Account Management(Service and Privileged Accounts)</p>
+<h4 id="Security-Logging"><a href="#Security-Logging" class="headerlink" title="Security Logging"></a>Security Logging</h4><p>2.1 Log capture - User logon and access events<br>2.2 Log capture - System events<br>2.3 Access to logs is logged<br>2.4 Access to logs is restricted</p>
+<h4 id="Security-Monitoring"><a href="#Security-Monitoring" class="headerlink" title="Security Monitoring"></a>Security Monitoring</h4><p>3.1 Security event log monitoring and alerting<br>3.2 Event log monitoring and alerting</p>
+<h4 id="Configuration-Management"><a href="#Configuration-Management" class="headerlink" title="Configuration Management"></a>Configuration Management</h4><p>4.1 Asset management discovery<br>4.2 Asset management removal<br>4.3 Configuration integrity or change monitoring</p>
+<h4 id="Encryption-at-Rest"><a href="#Encryption-at-Rest" class="headerlink" title="Encryption at Rest"></a>Encryption at Rest</h4><p>5.1 Hardware level encryption<br>5.2 Software level encryption<br>5.3 Key Management</p>
+<h4 id="Encryption-at-Transit"><a href="#Encryption-at-Transit" class="headerlink" title="Encryption at Transit"></a>Encryption at Transit</h4><p>6.1 Hardware level encryption<br>6.2 Software level encryption<br>6.3 Key Management</p>
+<h4 id="Network-Security-Controls"><a href="#Network-Security-Controls" class="headerlink" title="Network Security Controls"></a>Network Security Controls</h4><p>7.1 Intrusion prevention<br>7.2 Intrusion prevention monitoring and alerting checks<br>7.3 Network segregation<br>7.4 DDOS protection Service</p>
+<h4 id="Malware-Detection"><a href="#Malware-Detection" class="headerlink" title="Malware Detection"></a>Malware Detection</h4><p>8.1 Host based Antivirus<br>8.2 Network based Antivirus<br>8.3 Web Application Firewall</p>
+<h4 id="Technology-Change-Management"><a href="#Technology-Change-Management" class="headerlink" title="Technology Change Management"></a>Technology Change Management</h4><p>9.1 Change management process<br>9.2 Source code repositories<br>9.3 Integrity checking<br>9.4 Build and Test<br>9.5 Release<br>9.6 Security patch management</p>
+<h4 id="Data-Validation"><a href="#Data-Validation" class="headerlink" title="Data Validation"></a>Data Validation</h4><p>10.1 Data type validation<br>10.2 Validation against templates<br>10.3 Data Access Authorisation</p>
+<h4 id="Ongoing-Assurance"><a href="#Ongoing-Assurance" class="headerlink" title="Ongoing Assurance"></a>Ongoing Assurance</h4><p>11.1 Third Part External Party Security Assessments<br>11.2 Regular MSB compliance checks<br>11.3 Regular Controls Testing<br>11.4 Patch Reporting<br>11.5 AV Reporting<br>11.6 Compliance Reginme Requirement<br>11.7 Privilege Account Reviews</p>
+<p>通过本项活动能够促进在项目开始前产生标准化的流程安全控制评估，从而保证项目上所有人员对于系统可能选用的安全控制方法有所了解。</p>
+<h2 id="Security-Design-Review"><a href="#Security-Design-Review" class="headerlink" title="Security Design Review"></a>Security Design Review</h2><p>很多软件需要满足相应的法律或者政策，本项活动就是帮助项目从专门的安全角度来分析系统的架构是否符合安全的要求。整个团队的架构师、安全咨询师、和其他团队人员都应该加入这个活动。</p>
+<p><img src="SecurityDesignReview.png" alt="Security Design Review"></p>
+<h2 id="Threat-Modeling"><a href="#Threat-Modeling" class="headerlink" title="Threat Modeling"></a>Threat Modeling</h2><h3 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h3><p>Threat Modeling is a process of identifying threats in an application and its environment then assessing and mitigating their risks throughout the delivery process.</p>
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><p><img src="ThreatModeling.png" alt="ThreatModeling"></p>
+<ul>
+<li><p>Identify Security Objectives(Application Target Assets):Identify high value data, features and processes that hackers would gain the most from targeting.</p>
+<p>  Examples: </p>
+<ul>
+<li>Features: User login, Credit Card, Payment, Email Notifications</li>
+<li>Processed: Session, Management, Tokenisation, Encryption</li>
+<li>Data: Passwords, Personal,  Information, Technology </li>
+</ul>
+</li>
+<li><p>Application Overview</p>
+<ul>
+<li>Identify the best model approach for your application<ul>
+<li>Software centric (starts with the software, Microsoft’s SDL)</li>
+<li>Attacker centric (starts with the attacker, Intel’s TAL)</li>
+<li>Asset centric (starts with the assets, e.g. data/services/data stories)</li>
+</ul>
+</li>
+<li>Use architectural high level diagrams as the basis for your threat model</li>
+<li>Identify components</li>
+<li>Identify communication</li>
+<li>Identify trust boundaries</li>
+</ul>
+</li>
+<li><p>Decompose Application</p>
+<ul>
+<li><p>Hign value scenarios</p>
+<ul>
+<li><p>Use the high value assets identified earlier to come up with user scenarios that explore how your application will deal with the objectives.</p>
+<p>Example :<br>Feature: User login<br>Scenario A: User creates an account<br>Scenario B: User logs into application<br>Scenario C: User changes password</p>
+</li>
+</ul>
+</li>
+<li>Data flow diagrams(DFD)<ul>
+<li>Maps the movement of data within the system for each high value scenario described.</li>
+<li>Identify trust bounadries between systems </li>
+<li>Identify network boundaries between systems </li>
+<li>Identify data types i.e. User, Application, API etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Identify threats(STRIDE) and vulnerabilities</p>
+</li>
+<li>Risk assessment </li>
+<li>Identify countermeasures to mitigate the threats(DREAD)</li>
+<li>Validate the model for completeness</li>
+</ul>
+<p>具体的威胁可以从以下几个方面考虑，<br><img src="ThreatList.png" alt="ThreatList"></p>
+<h2 id="Secure-Requirement-Stories"><a href="#Secure-Requirement-Stories" class="headerlink" title="Secure Requirement, Stories"></a>Secure Requirement, Stories</h2><p>进入交付阶段，我们可以从需求、开发、测试方面分别保证系统的安全性。首先，是需求分析阶段，可以通过Secure Acceptance Criteria和Secure Stories两个方向来保证需求业务的安全性。</p>
+<h3 id="Secure-Acceptance-Criteria"><a href="#Secure-Acceptance-Criteria" class="headerlink" title="Secure Acceptance Criteria"></a>Secure Acceptance Criteria</h3><h4 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h4><pre><code>Given I  input in name field    ’&gt;&lt;script&gt;…&lt;script&gt;’,
+When I submit,
+Then ‘Enter a valid name’ validation is triggered.
+
+Given I  have forwarded a manipulated request (proxy) with ”&gt;&lt;script&gt;…&lt;script&gt;” in ‘name’ data in .
+When I inspect the HTTP response.
+Then I see webpage with ‘Enter valid name’ validation is triggered.
+
+Given I have modified my valid session id and it does not exist 
+When I try to access an old webpage 
+Then I am shown an error not permitted page
+
+Given I don’t have a session id 
+When I try to access an old webpage 
+Then I am shown an error not permitted page
+
+Given my session has timed-out 
+When I try to access an old webpage 
+Then I am shown an error not permitted page
+</code></pre><h3 id="Secure-Stories"><a href="#Secure-Stories" class="headerlink" title="Secure Stories"></a>Secure Stories</h3><h4 id="例子：-1"><a href="#例子：-1" class="headerlink" title="例子："></a>例子：</h4><pre><code>As a developer
+I want to increase security around server communication and session management
+So that accidental discovery, script kiddies and curious attackers are less likely to hack our site
+
+Tasks:
+Configure web-server for ‘https’ secure communication
+Use ‘X-proto-forwarded’ configuration pattern to F5 and web-server for redirect locations to be secure
+Add ‘httponly’ to the session SET-COOKIE for cookie that require protection from being access by scripts
+
+Acceptance Criteria:
+Given I have carried out multiple user sceanrios.
+When I check the history of traffic
+Then I see that all communication is securely encrypted
+
+Given I have started a session 
+When I execute a script to alert the session cookies on the browser
+Then I do not see cookies that have been set as ‘httponly’
+</code></pre><h2 id="Secure-Code-amp-Code-Review"><a href="#Secure-Code-amp-Code-Review" class="headerlink" title="Secure Code &amp; Code Review"></a>Secure Code &amp; Code Review</h2><h3 id="Secure-Development-Practices"><a href="#Secure-Development-Practices" class="headerlink" title="Secure Development Practices"></a>Secure Development Practices</h3><p>其次开发人员在开发阶段也要保证项目的安全，首先是Secure Development Practices，在开发功能前应该熟悉一些基本的安全常识和易被攻击的漏洞，如下为一些推荐的安全实践和知识。</p>
+<ul>
+<li><a href="https://www.owasp.org/index.php/Top10#tab=Main" target="_blank" rel="external">OWASP Top 10</a></li>
+<li><a href="https://www.cert.org/secure-coding/" target="_blank" rel="external">CERT - Secure Coding Initiative</a>    </li>
+<li><a href="www.webappsec.org/">Web Application Security Consortium</a></li>
+<li><a href="https://training.safecode.org/" target="_blank" rel="external">SAFECode On Demand Training</a> </li>
+</ul>
+<h3 id="Static-Code-Analysis-Automated"><a href="#Static-Code-Analysis-Automated" class="headerlink" title="Static Code Analysis(Automated)"></a>Static Code Analysis(Automated)</h3><p>当然，对于开发过后的代码可以通过自动化静态代码扫描的方式保证代码的合规性、安全性，同时对于扫描到的易攻击漏洞提示。</p>
+<p><img src="StaticCodeScan.png" alt="StaticCodeScan"></p>
+<p>某项目使用Fortify静态扫描的结果: </p>
+<ul>
+<li>Privacy Violation</li>
+<li>Key Management: Hardcoded Encryption Key</li>
+<li>Insure Transport: Mail Transmission</li>
+<li>Header Manipulation</li>
+<li>Log Forging</li>
+<li>Build Misconfiguration: External Maven Dependency<br>……</li>
+</ul>
+<p>根据以上结果可以对一些严重的问题进行安全性修复。</p>
+<h3 id="Manual-Security-Code-Review"><a href="#Manual-Security-Code-Review" class="headerlink" title="Manual Security Code Review"></a>Manual Security Code Review</h3><p>同时也要使用人工安全复查代码的方式保证开发代码的安全性，分别可以从以下三个维度来审查</p>
+<ul>
+<li>Peer code review (For defensive coding and security vulnerabilities)</li>
+<li>Pair programming</li>
+<li>Formal code review by expert</li>
+</ul>
+<h2 id="Security-Testing"><a href="#Security-Testing" class="headerlink" title="Security Testing"></a>Security Testing</h2><p>在交付阶段也要保证测试阶段从安全方面测试，可以参考以下一些实践：</p>
+<ul>
+<li>Analyze the system security architect and business logic</li>
+<li>Design test cases with the vulnerabilities of each feature</li>
+<li>Manual explore testing from different aspects such like OWASP practice list below:<ul>
+<li>Input Validation Testing</li>
+<li>Session Management Testing<ul>
+<li>Server side access control layer</li>
+</ul>
+</li>
+<li>Business logic Testing</li>
+<li>Dependency check</li>
+<li>File upload <ul>
+<li>etc</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Fuzzing testing in exploring testing.</li>
+<li>Security in integration testing</li>
+<li>Testing using some security tools like ZAP etc</li>
+<li>Discuss with teams if security issues fix required</li>
+</ul>
+<h2 id="Penetration-testing"><a href="#Penetration-testing" class="headerlink" title="Penetration testing"></a>Penetration testing</h2><p>在交付阶段完成前，仅仅通过本组的测试人员进行安全测试还远远不够，在真正功能上线前要找一些专门的团队或者安全技术专家进行渗透测试。</p>
+<h3 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h3><p>Penetration Tests are conducted by skilled security tester, often an external partner, and aim to discover sophisticated vulnerabilities beyond those that can be detected by an automated static analysis tool.</p>
+<h3 id="步骤-2"><a href="#步骤-2" class="headerlink" title="步骤"></a>步骤</h3><p><img src="PenetrationTesting.png" alt="PenetrationTesting"></p>
+<p>某项目渗透测试报告结果:</p>
+<ul>
+<li>Analyze the system security architect</li>
+<li>HTTP Header Disclosure(SSP-12203 )penetration testing</li>
+<li>HTTP Strict Transport Security(HSTS) Header Not Used (SSP-12211)</li>
+<li>Verbose Error Messages (SSP-12205)</li>
+<li>Autocomplete Enabled (SSP-12209)</li>
+<li>Content security policy (SSP-12643)</li>
+<li>……</li>
+</ul>
+<p>根据以上测试结果可以针对一些严重问题进行修复。</p>
+<h2 id="Security-Deployment"><a href="#Security-Deployment" class="headerlink" title="Security Deployment"></a>Security Deployment</h2><p>在部署上线过程中，可以通过以下实践来保证部署的安全。</p>
+<ul>
+<li>Ask for approved such like ‘Change request number’ from services now<br>Implement a deployment acceptance test</li>
+<li>Deployer only have limit enough deploy privilege: Software should deploy using a least privilege security model</li>
+<li>Pair Deployment</li>
+<li>Automated packaging/deployment/removal: Eliminate all steps that can be automated</li>
+<li>No backup or old artifacts on service: Digitally signing binary artifacts and storing them in secure repositories, such like Nexus repo</li>
+<li>PVT automation</li>
+<li>End users obtain your software in a secure channel</li>
+</ul>
+<h2 id="Incident-Management"><a href="#Incident-Management" class="headerlink" title="Incident Management"></a>Incident Management</h2><p>上线之前对于上线过后可能产生的问题要提前做好应急措施。</p>
+<p>Teams should meet with the Incident Management team before a production release to review:</p>
+<ul>
+<li>The incident response process <ul>
+<li>who should be involved in the fix; </li>
+<li>who within the organization should be notified of the breach; </li>
+<li>when and how users should be notified. </li>
+</ul>
+</li>
+<li>The security aspects of the solution such like load balancer and API-GW to enable the security scanning solution</li>
+<li>Any logs, counters or networks channels that should be monitored for security breaches</li>
+</ul>
+<p>NOTE: Reviews must be repeated on an annual basis</p>
+<p>以上便是从10个角度分别来保证整个项目在各个阶段的安全的一些好的实践，希望可以帮助团队使用SDL这套体系来保证项目的安全。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-02-20</span><i class="fa fa-tag"></i><a href="/categories/安全/" title="安全" class="tag">安全 </a></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://siyuyan.github.io/2017/02/20/团队如何使用SDL落实安全实践/,Siyu,团队如何使用SDL落实安全实践,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a role="navigation" href="/2017/01/11/基于JavaScript敏捷测试（下篇）/" title="基于JavaScript敏捷测试（下篇）" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
