@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Siyu, 18200289607@qq.com"><title>基于云的测试实践 · Siyu</title><meta name="description" content="云计算带给测试领域的变革如今无论是IOS还是安卓，移动设备的更新换代是越来越快，当测试移动应用时候最耗时、最痛苦的就是要在各种设备上进行测试。在项目初始前期需要购买大量移动设备来进行兼容测试，考虑使用怎样的手段能够减轻测试工作量和成本则成为要解决的问题。
+而云计算环境的快速发展则给测试领域带来了新的"><meta name="keywords" content="Hexo,测试,AWS,安全"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/ds-embed.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Siyu</a></h3><div class="description"><p>If it hurts, do it more often.</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Publish by</span></a><a href="https://github.com/SiyuYan"> Siyu</a><span></span><div class="by_farbox"></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><!--li--><!--  if is_current('categories')--><!--    a.current(href="/categories")= __('Categories')--><!--  else--><!--    a(href="/categories")= __('Categories')--></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" style="display:none;" class="fa fa-chevron-left"></a></li></div><div class="avatar"><img src="/default_images/author_head.gif"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>基于云的测试实践</a></h3></div><div class="post-content"><h3 id="云计算带给测试领域的变革"><a href="#云计算带给测试领域的变革" class="headerlink" title="云计算带给测试领域的变革"></a>云计算带给测试领域的变革</h3><p>如今无论是IOS还是安卓，移动设备的更新换代是越来越快，当测试移动应用时候最耗时、最痛苦的就是要在各种设备上进行测试。在项目初始前期需要购买大量移动设备来进行兼容测试，考虑使用怎样的手段能够减轻测试工作量和成本则成为要解决的问题。</p>
+<p>而云计算环境的快速发展则给测试领域带来了新的可能。云计算本质是一种服务提供模型，通过这种模型可以随时，随地，按需地通过网络访问共享资源池的资源。在日常工作中不论是持续集成CI还是产品部署打包都可以在云环境上实现，那么测试也同样适用云计算环境来解决上述问题。在云计算环境下，将软件测试过程迁移到云中，应用云计算平台提供的计算和存储等资源进行各种测试活动，这是一种新型的软件测试方式，是云计算技术的一种新应用。</p>
+<h3 id="移动云测试平台"><a href="#移动云测试平台" class="headerlink" title="移动云测试平台"></a>移动云测试平台</h3><p>AWS Device Farm 就是这样一种移动云测试平台，可以让你的Android，IOS和Web应用同时运行在各种设备上，并与应用程序进行交互。当进行兼容性测试的时候，可以通过网络随时、随地、直接访问AWS提供的移动设备资源并进行测试。该平台主要支持两种方式的测试，分别是自动化测试和远程访问测试。</p>
+<ul>
+<li><p>自动化测试时上传被测应用包和测试文件包，随后云测试平台会自动运行测试，完成后并得到测试结果，得出哪种机型未通过测试，同时随时可以查看测试的历史会话和日志。<br><img src="自动化测试.png" alt="自动化测试"></p>
+</li>
+<li><p>远程访问测试时指定要测试的设备后，上传应用包（<em>.apk/</em>.ipr）,等待平台自动分配相应机型后远程连接设备进行交互测试，当然也可以随时查看测试的历史会话和日志。<br><img src="远程访问测试.png" alt="远程访问测试"></p>
+</li>
+</ul>
+<p>目前，市场上的云测试平台有很多，那么AWS作为基础设施云服务提供商的先驱者也同样加入这场云测试平台混战中。Sauce Labs、Xamarin Test Cloud、Testin云测等等都已经凭借自己独特的优势占据了市场的一席之地。</p>
+<p><img src="移动云测试平台比较.png" alt="移动云测试平台比较"></p>
+<pre><code>数据采集于2017年4月
+</code></pre><p>与其他的云测试平台相比，AWS Device Farm起步稍晚，目前支持的设备上稍少，但是在脚本测试中支持的语言和框架上发展迅速，当然该平台也是唯一支持测试FireOS设备的云测试平台。运行方式同时支持cli、console、sdk。</p>
+<p>收费方式：</p>
+<ul>
+<li>按需付费: 0.17 USD/设备分钟</li>
+<li>无限制的测试与访问: 最低 250 USD/设备插槽每月</li>
+<li>私有设备最低 200 USD/月</li>
+<li>1000分钟免费</li>
+</ul>
+<p><img src="技术雷达.png" alt="技术雷达"></p>
+<p>在技术雷达上，AWS Device Farm目前处于试验阶段。不论如何，目前情况来看AWS Device Farm凭借与其他AWS服务（如AWS CloudTrail）良好集成和良好的服务使用方式方面，终能在云测试平台的市场占据自己的一席之地，有需要对移动设备进行兼容性测试的企业可以在风险可控的项目中尝试使用此测试平台。</p>
+<p>远程访问测试<br>脚本测试<br>并行运行测试<br>支持随机模糊测试<br>大量真实 Android 和 iOS 设备<br>运行方式支持cli、console、sdk<br>持续集成 Jenkins<br>测试报告包括测试结果、截图和录屏<br>丰富的日志记录操作<br>与CloudTrail集成<br>支持大量流行测试框架<br>可以配置更改测试机环境<br>模拟不同网络连接状态<br>性能监控和分析: CPU &amp; RAM usage<br>设置运行超时时间<br>按需付费: 0.17 USD/设备分钟<br>无限制的测试与访问: 最低 250 USD/设备插槽每月<br>私有设备最低 200 USD/月<br>1000分钟免费</p>
+<p>未来的趋势：<br>在技术雷达上，AWS Device Farm目前处于试验阶段，有需要对移动设备进行兼容性测试的企业可以在风险可控的项目中尝试使用此测试平台。不论如何我们相信AWS Device Farm凭借与其他AWS良好集成</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-05-10</span></div></div></div></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
