@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="Siyu, 18200289607@qq.com"><title>基于云的测试实践 · Siyu</title><meta name="description" content="开篇前，先澄清一个内容。关于云测试的研究大体包括两个方向内容：如何确保云计算服务本身的质量以及如何更好地调用云计算的资源做测试。那么本文更主要的是讨论，如何有效利用云环境中的资源测试其他软件， 利用云计算技术解决方案进行测试的活动。
+介绍云测试的适合使用场景前，先来看一下测试领域一直以来面临的一些痛"><meta name="keywords" content="Hexo,测试,AWS,安全"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/ds-embed.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Siyu</a></h3><div class="description"><p>If it hurts, do it more often.</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Publish by</span></a><a href="https://github.com/SiyuYan"> Siyu</a><span></span><div class="by_farbox"></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><!--li--><!--  if is_current('categories')--><!--    a.current(href="/categories")= __('Categories')--><!--  else--><!--    a(href="/categories")= __('Categories')--></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"></a></li></div><div class="avatar"><img src="/default_images/author_head.gif"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>基于云的测试实践</a></h3></div><div class="post-content"><p>开篇前，先澄清一个内容。关于云测试的研究大体包括两个方向内容：如何确保云计算服务本身的质量以及如何更好地调用云计算的资源做测试。那么本文更主要的是讨论，如何有效利用云环境中的资源测试其他软件， 利用云计算技术解决方案进行测试的活动。</p>
+<p>介绍云测试的适合使用场景前，先来看一下测试领域一直以来面临的一些痛点和现状。</p>
+<h3 id="测试的现状与痛点"><a href="#测试的现状与痛点" class="headerlink" title="测试的现状与痛点"></a>测试的现状与痛点</h3><h4 id="测试成本高"><a href="#测试成本高" class="headerlink" title="测试成本高"></a>测试成本高</h4><ul>
+<li><p><strong>兼容性要求更高</strong>：如今移动设备的更新换代越来越快，跨设备的兼容性测试也变得越来越复杂、耗时。然而对于用户体验质量要求在逐渐变高，需要对兼容性要求越来越高。在项目初期，公司往往需要购买大量移动设备花费大量人力来进行测试。</p>
+</li>
+<li><p><strong>多台测试机系统需逐一升级</strong>：现在移动操作系统升级快，一旦要求支持不同操作系统版本要逐个升级，缺乏规模化升级的能力</p>
+</li>
+</ul>
+<h4 id="测试利用率低"><a href="#测试利用率低" class="headerlink" title="测试利用率低"></a>测试利用率低</h4><ul>
+<li><strong>测试的硬件和软件在测试后就会闲置，利用率不高</strong>：小到每天下班后，大到项目结束后，测试设备资源使用率总体不高。</li>
+</ul>
+<h4 id="测试环境管理复杂"><a href="#测试环境管理复杂" class="headerlink" title="测试环境管理复杂"></a>测试环境管理复杂</h4><ul>
+<li><p><strong>真实场景模拟复杂（如：弱网/WIFI）</strong>：更改系统配置类，手动测试时候，要求对不同机型足够熟悉，通知控制在哪里。</p>
+</li>
+<li><p><strong>测试环境一致性</strong>：每次测试后对测试环境系统进行修改后，没有还原特殊的环境配置。造成测试环境不一致导致问题出现</p>
+</li>
+</ul>
+<h3 id="云计算带给测试领域的变革"><a href="#云计算带给测试领域的变革" class="headerlink" title="云计算带给测试领域的变革"></a>云计算带给测试领域的变革</h3><p>而云环境的快速发展则给测试领域带来了新的可能性。云计算的本质是一种服务提供模型，通过这种模型可以随时，随地，按需地通过网络访问共享资源池的资源。<br><img src="平台转变.png" alt="平台转变"></p>
+<p>云计算带来将虚拟化的计算资源供给用户使用的的服务方式, 原来越多的企业由传统的基础设施、服务 迁移到云平台上，SaaS、PaaS以及IaaS等服务模式不仅对软件架构设计和软件服务影响深远,还改变了软件产品的生产消费方式。开发、部署、发布，都会使用云资源。同样在测试领域也产生了一定的影响。<br><img src="测试转变.png" alt="测试转变"></p>
+<p>不再需要使用左图中的方式购买大量实体机型去做测试，而将软件测试过程迁移到云中，应用云计算平台提供的计算和存储等资源进行各种测试活动。资源自动生成、弹性分配，按需服务，联网即得的特性将大大改善我们前面提到的问题。甚至连自动化软件测试当结合云环境时候也能发挥更大的威力。</p>
+<h3 id="云测试平台"><a href="#云测试平台" class="headerlink" title="云测试平台"></a>云测试平台</h3><p>云测试平台是一种利用云环境的测试方法。集约化利用测试资源，规模化完成测试任务。用户可以使用浏览器来提交测试项目和测试脚本，测试云测试任务分配到云端进行执行，最后将测试结果集中展现给用户。</p>
+<p>优点：</p>
+<ul>
+<li>节约成本</li>
+<li>服务按需付费</li>
+<li>扩展性强</li>
+<li>高可靠性</li>
+<li>联网即得</li>
+<li>加速测试</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>平台服务及数据的安全性</li>
+<li>供应商角色增加了复杂度　　</li>
+<li>虚拟技术不固定影响性能测试 </li>
+</ul>
+<p>云平台测试，可以狭义的理解为Testing as a Service (TaaS)。测试服务提供商利用云计算平台给测试用户提供的第三方软件测试服务。</p>
+<h3 id="平台架构层次"><a href="#平台架构层次" class="headerlink" title="平台架构层次"></a>平台架构层次</h3><p><img src="生命周期.png" alt="生命周期"></p>
+<p>目前该平台主要支持两种测试方式，分别是自动化测试和远程访问测试。</p>
+<ul>
+<li>自动化测试需要上传<strong>被测应用包</strong>和<strong>测试文件包</strong>，随后云测试平台会自动运行测试，完成后得出详细测试报告，报告中包含哪些机型未通过测试，也可以查看测试历史会话和日志。</li>
+</ul>
+<p><img src="自动化测试.png" alt="自动化测试"></p>
+<ul>
+<li>远程访问测试需指定待测设备，随后上传应用程序包，等待平台自动分配相应机型后远程连接设备进行交互测试，也可以查看测试历史会话和日志。</li>
+</ul>
+<p><img src="远程访问测试.png" alt="远程访问测试"></p>
+<h3 id="移动云测试平台"><a href="#移动云测试平台" class="headerlink" title="移动云测试平台"></a>移动云测试平台</h3><p>云测试平台选择：</p>
+<ul>
+<li>选择市场上的云测试平台</li>
+<li>搭建云测试平台</li>
+</ul>
+<p>市场上的云测试平台选择因素：</p>
+<ul>
+<li>供应商的选择标准？软硬件标准？安全性？</li>
+<li>可以提供何种服务？</li>
+<li>提供私有云，公有云还是混合云平台？</li>
+</ul>
+<p>目前，市场上的云测试平台有很多，Xamarin Test Cloud、Testin云测、AWS Device Farm、Sauce Labs等等都已经凭借自己独特的优势拥有了足够的使用群体。<br>目前市场上有很多移动云测试平台，可让Android，IOS和Web应用同时运行在各种设备上，并与应用程序进行实时交互，可以通过网络随时、随地、按需的访问AWS提供的移动设备资源进行兼容性测试。</p>
+<p><img src="移动云测试平台比较.png" alt="移动云测试平台比较"></p>
+<pre><code>数据采集于2017年4月
+</code></pre><h3 id="AWS-Device-Farm"><a href="#AWS-Device-Farm" class="headerlink" title="AWS Device Farm"></a>AWS Device Farm</h3><p>与其他的云测试平台相比，AWS Device Farm起步稍晚，目前支持的设备上稍少，但是在脚本测试中支持的语言和框架上发展迅速，当然该平台也是唯一支持测试FireOS设备的云测试平台。运行方式同时支持cli、console、sdk。</p>
+<p>功能特点：</p>
+<ul>
+<li>远程访问测试</li>
+<li>脚本测试</li>
+<li>并行运行测试</li>
+<li>支持随机模糊测试</li>
+<li>大量真实 Android 和 iOS 设备</li>
+<li>运行方式支持cli、console、sdk</li>
+<li>持续集成 Jenkins</li>
+<li>测试报告包括测试结果、截图和录屏</li>
+<li>丰富的日志记录操作</li>
+<li>与CloudTrail集成</li>
+<li>支持大量流行测试框架</li>
+<li>可以配置更改测试机环境</li>
+<li>模拟不同网络连接状态</li>
+<li>性能监控和分析: CPU &amp; RAM usage</li>
+<li>设置运行超时时间</li>
+</ul>
+<p>收费方式：</p>
+<ul>
+<li>按需付费: 0.17 USD/设备分钟</li>
+<li>无限制的测试与访问: 最低 250 USD/设备插槽每月</li>
+<li>私有设备最低 200 USD/月</li>
+<li>1000分钟免费</li>
+</ul>
+<p>目前情况看来，AWS Device Farm处于技术雷达试验阶段，凭借与其他AWS服务（如AWS CloudTrail）的良好集成和服务使用方式，在云测试平台的市场份额将稳步提升，终将占据一席之地。有需要对移动设备进行兼容性测试的企业可以在风险可控的项目中尝试使用此服务平台。</p>
+<h3 id="Xamarin-Test-Cloud"><a href="#Xamarin-Test-Cloud" class="headerlink" title="Xamarin Test Cloud"></a>Xamarin Test Cloud</h3><h3 id="Testin"><a href="#Testin" class="headerlink" title="Testin"></a>Testin</h3><h2 id="云测试平台搭建-–-参考架构"><a href="#云测试平台搭建-–-参考架构" class="headerlink" title="云测试平台搭建 – 参考架构"></a>云测试平台搭建 – 参考架构</h2><p>云测试平台的搭建可分用户接口层、云测试项目管理层</p>
+<p>用户接口层 用户接口层是用户访问云测试系统的入口。 用户可以通过 Web界面访问该系统，实现测试任务的提交、测试状态的查看以及测试结果的审阅。<br>云测试项目管理层 为测试所需要的资源进行预留和调度，哪些任务同时跑，分配哪些设备资源等。在测试任务执行时负责测试状态的监控，并在测试任务执行完毕 之后进行测试结果的分析统计。 以服务的方式封装测试资源与工具，实现测 试即服务。</p>
+<p><img src="搭建平台参考架构.png" alt="搭建平台参考架构"></p>
+<p>借助openstack 搭建基础设施平台。我们在这一层就可以使用openstack为我们提供的框架。</p>
+<p>云管理层 它是测试云的基础设施。云管理层根据任务管 理层的指令来选择镜像并创建虚拟机。在测试虚拟机创建成功 之后，向任务管理层报告虚拟机的网络地址。在测试任务结束 后销毁虚拟机。动态分配和管理公共云或私有云的 各种虚拟资源。<br>物理资源层它主要为测试提供资源，如内存、硬盘、CPU等。该层资源需要支持虚拟化，采用的技术有 XEN/KVM等。 </p>
+<p><img src="搭建平台参考流程.png" alt="搭建平台参考流程"></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-05-10</span><i class="fa fa-tag"></i><a href="/categories/测试/" title="测试" class="tag">测试 </a><a href="/categories/测试/云/" title="云" class="tag">云 </a></div></div></div></div><div class="share"><div class="evernote"> <a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></div><div class="weibo"> <a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></div><div class="twitter"> <a href="http://twitter.com/home?status=,http://siyuyan.github.io/2017/05/10/基于云的规模化测试实践/,Siyu,基于云的测试实践,;" class="fa fa-twitter"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/2017/10/02/OWASP-TOP-10/" title="OWASP-TOP-10" class="btn">上一篇</a></li><li class="next pagbuttons"><a role="navigation" href="/2017/05/09/AWS-Device-Farm/" title="AWS Device Farm" class="btn">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
